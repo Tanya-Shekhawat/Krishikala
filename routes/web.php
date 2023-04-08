@@ -42,3 +42,16 @@ Route::middleware('auth:admin')->group(function () {
 });
 
 require __DIR__.'/adminauth.php';
+
+
+Route::get('officer/dashboard', function () {
+    return view('officer.dashboard');
+})->middleware(['auth:officer', 'verified'])->name('officer.dashboard');
+
+Route::middleware('auth:officer')->group(function () {
+    Route::get('officer/profile', [ProfileController::class, 'edit'])->name('officer.profile.edit');
+    Route::patch('officer/profile', [ProfileController::class, 'updateAdmin'])->name('officer.profile.update');
+    Route::delete('officer/profile', [ProfileController::class, 'destroy'])->name('officer.profile.destroy');
+});
+
+require __DIR__.'/officerauth.php';
