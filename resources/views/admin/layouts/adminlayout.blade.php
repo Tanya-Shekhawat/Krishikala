@@ -84,6 +84,10 @@
         }
     </script>
 
+    <style>
+        .asktrick_label { color: red; }
+    </style>
+
 </head>
 
 <body>
@@ -103,7 +107,8 @@
             <!-- Navbar brand for xl START -->
             <div class="d-flex align-items-center">
                 <a class="navbar-brand" href="/AcademyCourses">
-                    <img class="navbar-brand-item" src="{{ asset('assets/images/logo-light.svg') }}" alt="">
+                    <img class="navbar-brand-item" src="{{ asset('assets/images/police/head-png.png') }}"
+                        alt="" width="100px" height="60px">
                 </a>
             </div>
             <!-- Navbar brand for xl END -->
@@ -120,11 +125,39 @@
                                     class="bi bi-house fa-fw me-2"></i>Dashboard</a></li>
 
                         <!-- Title -->
-                        <li class="nav-item ms-2 my-2">Pages</li>
+                        <li class="nav-item ms-2 my-2">Links</li>
 
-                        <!-- Menu item 3 -->
-                        <li class="nav-item"> <a class="nav-link" href="admin-student-list.html"><i
-                                    class="fas fa-user-graduate fa-fw me-2"></i>Students</a></li>
+                        <!-- Police Officers and Personnels -->
+                        <li class="nav-item">
+                            @php
+                                if ($current_route == 'admin.officers' || $current_route == 'admin.manageofficers' || $current_route == 'admin.manageofficers.edit') {
+                                    $aria_expanded = 'true';
+                                    $active = '';
+                                } elseif ($current_route == 'admin.policepersonnels' || $current_route == 'admin.managepolicepersonnels') {
+                                    $aria_expanded = 'true';
+                                    $active = '';
+                                } else {
+                                    $aria_expanded = 'false';
+                                    $active = 'collapsed';
+                                }
+                            @endphp
+                            <a class="nav-link {{ $active }}" data-bs-toggle="collapse" href="#collapsepolice"
+                                role="button" aria-expanded="{{ $aria_expanded }}" aria-controls="collapsepolice">
+                                <i class="fas fa-user-graduate fa-fw me-2"></i>Police Personnels
+                            </a>
+                            <!-- Submenu -->
+                            <ul class="nav collapse flex-column {{ $active == 'collapsed' ? '' : 'show' }}"
+                                id="collapsepolice" data-bs-parent="#navbar-sidebar">
+                                <li class="nav-item"> <a
+                                        class="nav-link {{ $current_route == 'admin.officers' ? 'active' : '' }}
+                                        {{ $current_route == 'admin.manageofficers' ? 'active' : '' }} {{ $current_route == 'admin.manageofficers.edit' ? 'active' : '' }}"
+                                        href="{{ route('admin.officers') }}">Station Officers</a>
+                                </li>
+                                <li class="nav-item"> <a
+                                        class="nav-link {{ $current_route == 'admin.policepersonnels' ? 'active' : '' }}"
+                                        href="{{ route('admin.policepersonnels') }}">Police Staff</a></li>
+                            </ul>
+                        </li>
 
                         <!-- Menu item 5 -->
                         <li class="nav-item"> <a class="nav-link" href="admin-review.html"><i
@@ -392,7 +425,7 @@
                                         <li><a class="dropdown-item" href="#"><i
                                                     class="bi bi-gear fa-fw me-2"></i>Account Settings</a></li>
                                         <li><a class="dropdown-item" href="#"><i
-                                                    class="bi bi-info-circle fa-fw me-2"></i>Help</a></li>
+                                                    class="fas fa-user-graduate fa-fw me-2"></i>Add Officer</a></li>
                                         <li>
                                             <form action="{{ route('admin.logout') }}" method="post">
                                                 @csrf
@@ -545,7 +578,7 @@
                     if (willDelete) {
                         $.ajax({
                             type: "get",
-                            url: "/AcademyCourses/delete",
+                            url: "{{route('delete')}}",
                             data: {
                                 id: id,
                                 table: table_name,

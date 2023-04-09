@@ -394,7 +394,7 @@ button,
 [type=button],
 [type=reset],
 [type=submit] {
-  -webkit-appearance: button;
+  -webkit-appearance: button; 
 }
 button:not(:disabled),
 [type=button]:not(:disabled),
@@ -22793,3 +22793,8 @@ html[dir=rtl] .choices__input {
 
 /*User CSS*/
 /*# sourceMappingURL=style.css.map */
+
+/* Custom CSS */
+.asktrick_label {
+  color: red;
+}
