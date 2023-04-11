@@ -63,7 +63,7 @@
                 status = 1;
             }
             $.ajax({
-                url: "/AcademyCourses/change/status",
+                url: "{{ route('status') }}",
                 type: "POST",
                 data: {
                     table: table,
@@ -85,7 +85,9 @@
     </script>
 
     <style>
-        .asktrick_label { color: red; }
+        .asktrick_label {
+            color: red;
+        }
     </style>
 
 </head>
@@ -121,8 +123,21 @@
                     <ul class="navbar-nav flex-column" id="navbar-sidebar"
                         style="overflow: scroll; height:90vh; box-sizing: content-box; overflow-x: hidden;">
                         <!-- Menu item 1 -->
-                        <li class="nav-item"><a href="{{ route('admin.dashboard') }}" class="nav-link active"><i
-                                    class="bi bi-house fa-fw me-2"></i>Dashboard</a></li>
+                        {{-- Admin Dashboard --}}
+                        <li class="nav-item">
+                            @php
+                                if ($current_route == 'admin.dashboard') {
+                                    $active = '';
+                                } else {
+                                    $active = 'collapsed';
+                                }
+                            @endphp
+                        <li class="nav-item">
+                            <a class="nav-link {{ $current_route == 'admin.dashboard' ? 'active' : '' }}"
+                                href="{{ route('admin.dashboard') }}"><i
+                                    class="bi bi-house fa-fw me-2"></i>Dashboard</a>
+                        </li>
+                        </li>
 
                         <!-- Title -->
                         <li class="nav-item ms-2 my-2">Links</li>
@@ -160,12 +175,36 @@
                         </li>
 
                         <!-- Menu item 5 -->
-                        <li class="nav-item"> <a class="nav-link" href="admin-review.html"><i
-                                    class="far fa-comment-dots fa-fw me-2"></i>Reviews</a></li>
+                        <li class="nav-item">
+                            @php
+                                if ($current_route == 'admin.allstations' || $current_route == 'admin.manageallstations' || $current_route == 'admin.manageallstations.edit') {
+                                    $active = '';
+                                } else {
+                                    $aria_expanded = 'false';
+                                    $active = 'collapsed';
+                                }
+                            @endphp
+                            <a class="nav-link {{ $current_route == 'admin.allstations' ? 'active' : '' }}
+                            {{ $current_route == 'admin.manageallstations' ? 'active' : '' }} {{ $current_route == 'admin.manageallstations.edit' ? 'active' : '' }}"
+                                href="{{ route('admin.allstations') }}"><i
+                                    class="far fa-comment-dots fa-fw me-2"></i>Police Stations</a>
+                        </li>
 
-                        <!-- Menu item 6 -->
-                        <li class="nav-item"> <a class="nav-link" href="admin-earning.html"><i
-                                    class="far fa-chart-bar fa-fw me-2"></i>Earnings</a></li>
+                        <!-- Menu item 5 -->
+                        <li class="nav-item">
+                            @php
+                                if ($current_route == 'admin.casecate' || $current_route == 'admin.managecasecate' || $current_route == 'admin.managecasecate.edit') {
+                                    $active = '';
+                                } else {
+                                    $aria_expanded = 'false';
+                                    $active = 'collapsed';
+                                }
+                            @endphp
+                            <a class="nav-link {{ $current_route == 'admin.casecate' ? 'active' : '' }}
+                            {{ $current_route == 'admin.managecasecate' ? 'active' : '' }} {{ $current_route == 'admin.managecasecate.edit' ? 'active' : '' }}"
+                                href="{{ route('admin.casecate') }}"><i
+                                    class="far fa-comment-dots fa-fw me-2"></i>Case Category</a>
+                        </li>
 
                         <!-- Menu item 7 -->
                         <li class="nav-item"> <a class="nav-link" href="admin-setting.html"><i
@@ -173,8 +212,8 @@
 
                         <!-- Menu item 8 -->
                         <li class="nav-item">
-                            <a class="nav-link" data-bs-toggle="collapse" href="#collapseauthentication"
-                                role="button" aria-expanded="false" aria-controls="collapseauthentication">
+                            <a class="nav-link" data-bs-toggle="collapse" href="#collapseauthentication" role="button"
+                                aria-expanded="false" aria-controls="collapseauthentication">
                                 <i class="bi bi-lock fa-fw me-2"></i>Authentication
                             </a>
                             <!-- Submenu -->
@@ -578,7 +617,7 @@
                     if (willDelete) {
                         $.ajax({
                             type: "get",
-                            url: "{{route('delete')}}",
+                            url: "{{ route('delete') }}",
                             data: {
                                 id: id,
                                 table: table_name,

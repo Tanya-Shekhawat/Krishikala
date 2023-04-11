@@ -5,6 +5,7 @@ namespace App\Http\Controllers\AdminControllers;
 use Illuminate\Http\Request;
 use App\Models\StationOfficer;
 use App\Http\Controllers\Controller;
+use App\Models\PoliceStation;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -23,7 +24,8 @@ class AdminStationOfficer extends Controller
     // Opne the Form to add a new Station Officer
     function addStationOfficer()
     {
-        return view('admin.police.manageofficer');
+        $police_station = PoliceStation::get();
+        return view('admin.police.manageofficer')->with(['police_station'=>$police_station]);
     }
 
     // Save the details of Station Officer 
@@ -88,6 +90,9 @@ class AdminStationOfficer extends Controller
             $update_station_officer->email = $request->email;
 
             if ($request->hasFile('image')) {
+                // Will delete the last inserted file from Cloud
+                $result = Cloudinary::uploadApi()->destroy("$request->image");
+                // Add new image file in Cloud
                 $response = Cloudinary::upload($request->file('image')->getRealPath())->getSecurePath();
                 $update_station_officer->image = $response;
             } else {
@@ -113,8 +118,9 @@ class AdminStationOfficer extends Controller
     // Function to open the Update Form for Station Officer
     function updateStationOfficer(Request  $request)
     {
+        $police_station = PoliceStation::get();
         $officer_details = StationOfficer::find($request->id);
 
-        return view('admin.police.manageofficer')->with(['officer_details'=>$officer_details]);
+        return view('admin.police.manageofficer')->with(['officer_details'=>$officer_details,'police_station'=>$police_station]);
     }
 }

@@ -9,6 +9,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -26,6 +27,17 @@ class AuthenticatedSessionController extends Controller
     public function store(LoginRequest $request): RedirectResponse
     {
         $request->authenticate();
+
+        if(Auth::guard('officer')->user()->is_verified==0 || Auth::guard('officer')->user()->status==0)
+        {
+            Auth::guard('officer')->logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+            
+            Alert::error('Not Verified','Your account is not verified yet');
+            
+            return redirect()->route('officer.login');
+        }
 
         $request->session()->regenerate();
 

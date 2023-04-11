@@ -1,16 +1,18 @@
-@extends('admin.layouts.adminlayout')
+@extends('officer.layouts.officerlayout')
 
 @section('title')
-    Admin Officer View Page
+    Officer Staff Page
 @endsection
 
 @section('content')
     <div class="card shadow">
-        <div class="card-header border-bottom d-sm-flex justify-content-between align-items-center">
+        <div class="card-header border-bottom d-sm-flex justify-content-between align-items-center my-2">
             <h5 class="card-header-title mb-0">Station Officer Page</h5>
-            <a href="{{ route('admin.manageofficers') }}" class="btn btn-sm btn-primary mb-0">Add a new Station Officer</a>
+            <a href="{{ route('officer.addstaffmember') }}" class="btn btn-info mb-0">Add new Staff</a>
         </div>
-        <div class="card-body">
+
+        <div class="container my-2">
+
             <table id="example1" class="border">
                 <thead>
                     <tr>
@@ -32,7 +34,7 @@
                     @php
                         $index = 0;
                     @endphp
-                    @foreach ($station_officer as $item)
+                    @foreach ($staff_members as $item)
                         @php ++$index; @endphp
                         <tr>
                             <td>{{ $index }}</td>
@@ -61,7 +63,7 @@
                                 </div>
                             </td>
                             <td>
-                                <a href="{{ route('admin.manageofficers.edit', ['id' => $item->id]) }}"
+                                <a href="{{ route('officer.managestaff.edit', ['id' => $item->id]) }}"
                                     class="btn btn-success-soft btn-round me-1 mb-1 mb-md-0" data-bs-toggle="tooltip"
                                     data-bs-placement="top" title="" data-bs-original-title="Edit">
                                     <i class="bi bi-pencil-square"></i>
