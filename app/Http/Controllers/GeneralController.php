@@ -19,4 +19,16 @@ class GeneralController extends Controller
     {
         echo DB::table($request->table)->where('id', $request->row_id)->update([$request->column => $request->status]);
     }
+
+    // Function to open the About Page
+    function aboutPage()
+    {
+        return view('about');
+    }
+
+    // Function to open the About Page
+    function contactPage()
+    {
+        return view('contact');
+    }
 }

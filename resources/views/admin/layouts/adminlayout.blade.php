@@ -75,7 +75,7 @@
                 success: function(data) {
                     if (data) {
                         $(id).data('status', status)
-                        toastr.success("Status Changed Successfully")
+                        toastr.success("Booking Status Updated")
                     } else {
                         toastr.warning("Something went wrong")
                     }
@@ -87,6 +87,13 @@
     <style>
         .asktrick_label {
             color: red;
+        }
+
+        .appointments{
+            box-shadow: 0 0 5px rgb(102, 101, 101);
+            border-radius: 10px;
+            padding: 20px 10px;
+            align-items: center;
         }
     </style>
 
@@ -108,7 +115,7 @@
 
             <!-- Navbar brand for xl START -->
             <div class="d-flex align-items-center">
-                <a class="navbar-brand" href="/AcademyCourses">
+                <a class="navbar-brand" href="/CureForSure">
                     <img class="navbar-brand-item" src="{{ asset('assets/images/police/head-png.png') }}"
                         alt="" width="100px" height="60px">
                 </a>
@@ -120,8 +127,7 @@
                 <div class="offcanvas-body sidebar-content d-flex flex-column bg-dark">
 
                     <!-- Sidebar menu START -->
-                    <ul class="navbar-nav flex-column" id="navbar-sidebar"
-                        style="overflow: scroll; height:90vh; box-sizing: content-box; overflow-x: hidden;">
+                    <ul class="navbar-nav flex-column" id="navbar-sidebar">
                         <!-- Menu item 1 -->
                         {{-- Admin Dashboard --}}
                         <li class="nav-item">
@@ -158,7 +164,7 @@
                             @endphp
                             <a class="nav-link {{ $active }}" data-bs-toggle="collapse" href="#collapsepolice"
                                 role="button" aria-expanded="{{ $aria_expanded }}" aria-controls="collapsepolice">
-                                <i class="fas fa-user-graduate fa-fw me-2"></i>Police Personnels
+                                <i class="fas fa-user-graduate fa-fw me-2"></i>Staff
                             </a>
                             <!-- Submenu -->
                             <ul class="nav collapse flex-column {{ $active == 'collapsed' ? '' : 'show' }}"
@@ -166,32 +172,32 @@
                                 <li class="nav-item"> <a
                                         class="nav-link {{ $current_route == 'admin.officers' ? 'active' : '' }}
                                         {{ $current_route == 'admin.manageofficers' ? 'active' : '' }} {{ $current_route == 'admin.manageofficers.edit' ? 'active' : '' }}"
-                                        href="{{ route('admin.officers') }}">Station Officers</a>
+                                        href="{{ route('admin.officers') }}">Doctors</a>
                                 </li>
                                 <li class="nav-item"> <a
                                         class="nav-link {{ $current_route == 'admin.policepersonnels' ? 'active' : '' }}"
-                                        href="{{ route('admin.policepersonnels') }}">Police Staff</a></li>
+                                        href="{{ route('admin.policepersonnels') }}">User</a></li>
                             </ul>
                         </li>
 
                         <!-- Menu item 5 -->
                         <li class="nav-item">
                             @php
-                                if ($current_route == 'admin.allstations' || $current_route == 'admin.manageallstations' || $current_route == 'admin.manageallstations.edit') {
+                                if ($current_route == 'admin.appointments' || $current_route == 'admin.manageallstations' || $current_route == 'admin.manageallstations.edit') {
                                     $active = '';
                                 } else {
                                     $aria_expanded = 'false';
                                     $active = 'collapsed';
                                 }
                             @endphp
-                            <a class="nav-link {{ $current_route == 'admin.allstations' ? 'active' : '' }}
+                            <a class="nav-link {{ $current_route == 'admin.appointments' ? 'active' : '' }}
                             {{ $current_route == 'admin.manageallstations' ? 'active' : '' }} {{ $current_route == 'admin.manageallstations.edit' ? 'active' : '' }}"
-                                href="{{ route('admin.allstations') }}"><i
-                                    class="far fa-comment-dots fa-fw me-2"></i>Police Stations</a>
+                                href="{{ route('admin.appointments') }}"><i
+                                    class="far fa-comment-dots fa-fw me-2"></i>Appointments</a>
                         </li>
 
                         <!-- Menu item 5 -->
-                        <li class="nav-item">
+                        {{-- <li class="nav-item">
                             @php
                                 if ($current_route == 'admin.casecate' || $current_route == 'admin.managecasecate' || $current_route == 'admin.managecasecate.edit') {
                                     $active = '';
@@ -204,34 +210,12 @@
                             {{ $current_route == 'admin.managecasecate' ? 'active' : '' }} {{ $current_route == 'admin.managecasecate.edit' ? 'active' : '' }}"
                                 href="{{ route('admin.casecate') }}"><i
                                     class="far fa-comment-dots fa-fw me-2"></i>Case Category</a>
-                        </li>
-
-                        <!-- Menu item 7 -->
-                        <li class="nav-item"> <a class="nav-link" href="admin-setting.html"><i
-                                    class="fas fa-user-cog fa-fw me-2"></i>Admin Settings</a></li>
-
-                        <!-- Menu item 8 -->
-                        <li class="nav-item">
-                            <a class="nav-link" data-bs-toggle="collapse" href="#collapseauthentication" role="button"
-                                aria-expanded="false" aria-controls="collapseauthentication">
-                                <i class="bi bi-lock fa-fw me-2"></i>Authentication
-                            </a>
-                            <!-- Submenu -->
-                            <ul class="nav collapse flex-column" id="collapseauthentication"
-                                data-bs-parent="#navbar-sidebar">
-                                <li class="nav-item"> <a class="nav-link" href="sign-up.html">Sign Up</a></li>
-                                <li class="nav-item"> <a class="nav-link" href="sign-in.html">Sign In</a></li>
-                                <li class="nav-item"> <a class="nav-link" href="forgot-password.html">Forgot
-                                        Password</a></li>
-                                <li class="nav-item"> <a class="nav-link" href="admin-error-404.html">Error 404</a>
-                                </li>
-                            </ul>
-                        </li>
+                        </li> --}}
                     </ul>
                     <!-- Sidebar menu end -->
 
                     <!-- Sidebar footer START -->
-                    <div class="px-3 mt-auto pt-3">
+                    {{-- <div class="px-3 mt-auto pt-3">
                         <div class="d-flex align-items-center justify-content-between text-primary-hover">
                             <a class="h5 mb-0 text-body" href="admin-setting.html" data-bs-toggle="tooltip"
                                 data-bs-placement="top" title="Settings">
@@ -246,18 +230,13 @@
                                 <i class="bi bi-power"></i>
                             </a>
                         </div>
-                    </div>
-                    <!-- Sidebar footer END -->
-
+                    </div> --}}
                 </div>
             </div>
         </nav>
-        <!-- Sidebar END -->
 
-        <!-- Page content START -->
         <div class="page-content">
 
-            <!-- Top bar START -->
             <nav class="navbar top-bar navbar-light border-bottom py-0 py-xl-3">
                 <div class="container-fluid p-0">
                     <div class="d-flex align-items-center w-100">
@@ -317,116 +296,6 @@
                         <div class="ms-xl-auto">
                             <ul class="navbar-nav flex-row align-items-center">
 
-                                <!-- Notification dropdown START -->
-                                <li class="nav-item ms-2 ms-md-3 dropdown">
-                                    <!-- Notification button -->
-                                    <a class="btn btn-light btn-round mb-0" href="#" role="button"
-                                        data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
-                                        <i class="bi bi-bell fa-fw"></i>
-                                    </a>
-                                    <!-- Notification dote -->
-                                    <span class="notif-badge animation-blink"></span>
-
-                                    <!-- Notification dropdown menu START -->
-                                    <div
-                                        class="dropdown-menu dropdown-animation dropdown-menu-end dropdown-menu-size-md p-0 shadow-lg border-0">
-                                        <div class="card bg-transparent">
-                                            <div
-                                                class="card-header bg-transparent border-bottom py-4 d-flex justify-content-between align-items-center">
-                                                <h6 class="m-0">Notifications <span
-                                                        class="badge bg-danger bg-opacity-10 text-danger ms-2">2
-                                                        new</span></h6>
-                                                <a class="small" href="#">Clear all</a>
-                                            </div>
-                                            <div class="card-body p-0">
-                                                <ul class="list-group list-unstyled list-group-flush">
-                                                    <!-- Notif item -->
-                                                    <li>
-                                                        <a href="#"
-                                                            class="list-group-item-action border-0 border-bottom d-flex p-3">
-                                                            <div class="me-3">
-                                                                <div class="avatar avatar-md">
-                                                                    <img class="avatar-img rounded-circle"
-                                                                        src="assets/images/avatar/08.jpg"
-                                                                        alt="avatar">
-                                                                </div>
-                                                            </div>
-                                                            <div>
-                                                                <p class="text-body small m-0">Congratulate <b>Joan
-                                                                        Wallace</b> for graduating from <b>Microverse
-                                                                        university</b></p>
-                                                                <u class="small">Say congrats</u>
-                                                            </div>
-                                                        </a>
-                                                    </li>
-
-                                                    <!-- Notif item -->
-                                                    <li>
-                                                        <a href="#"
-                                                            class="list-group-item-action border-0 border-bottom d-flex p-3">
-                                                            <div class="me-3">
-                                                                <div class="avatar avatar-md">
-                                                                    <img class="avatar-img rounded-circle"
-                                                                        src="{{ asset('assets/images/avatar/02.jpg') }}"
-                                                                        alt="avatar">
-                                                                </div>
-                                                            </div>
-                                                            <div>
-                                                                <h6 class="mb-1">Larry Lawson Added a new course</h6>
-                                                                <p class="small text-body m-0">What's new! Find out
-                                                                    about new features</p>
-                                                                <u class="small">View detail</u>
-                                                            </div>
-                                                        </a>
-                                                    </li>
-
-                                                    <!-- Notif item -->
-                                                    <li>
-                                                        <a href="#"
-                                                            class="list-group-item-action border-0 border-bottom d-flex p-3">
-                                                            <div class="me-3">
-                                                                <div class="avatar avatar-md">
-                                                                    <img class="avatar-img rounded-circle"
-                                                                        src="assets/images/avatar/05.jpg"
-                                                                        alt="avatar">
-                                                                </div>
-                                                            </div>
-                                                            <div>
-                                                                <h6 class="mb-1">New request to apply for Instructor
-                                                                </h6>
-                                                                <u class="small">View detail</u>
-                                                            </div>
-                                                        </a>
-                                                    </li>
-
-                                                    <!-- Notif item -->
-                                                    <li>
-                                                        <a href="#"
-                                                            class="list-group-item-action border-0 border-bottom d-flex p-3">
-                                                            <div class="me-3">
-                                                                <div class="avatar avatar-md">
-                                                                    <img class="avatar-img rounded-circle"
-                                                                        src="{{ asset('assets/images/avatar/03.jpg') }}"
-                                                                        alt="avatar">
-                                                                </div>
-                                                            </div>
-                                                            <div>
-                                                                <h6 class="mb-1">Update v2.3 completed successfully
-                                                                </h6>
-                                                                <p class="small text-body m-0">What's new! Find out
-                                                                    about new features</p>
-                                                                <small class="text-body">5 min ago</small>
-                                                            </div>
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- Notification dropdown menu END -->
-                                </li>
-                                <!-- Notification dropdown END -->
-
                                 <!-- Profile dropdown START -->
                                 <li class="nav-item ms-2 ms-md-3 dropdown">
                                     <!-- Avatar -->
@@ -463,9 +332,6 @@
                                                     class="bi bi-person fa-fw me-2"></i>Edit Profile</a></li>
                                         <li><a class="dropdown-item" href="#"><i
                                                     class="bi bi-gear fa-fw me-2"></i>Account Settings</a></li>
-                                        <li><a class="dropdown-item" href="#"><i
-                                                    class="fas fa-user-graduate fa-fw me-2"></i>Add Officer</a></li>
-                                        <li>
                                             <form action="{{ route('admin.logout') }}" method="post">
                                                 @csrf
                                                 <button type="submit" class="dropdown-item bg-danger-soft-hover">
@@ -475,28 +341,13 @@
                                         <li>
                                             <hr class="dropdown-divider">
                                         </li>
-
-                                        <!-- Dark mode switch START -->
-                                        <li>
-                                            <div class="modeswitch-wrap" id="darkModeSwitch">
-                                                <div class="modeswitch-item">
-                                                    <div class="modeswitch-icon"></div>
-                                                </div>
-                                                <span>Dark mode</span>
-                                            </div>
-                                        </li>
-                                        <!-- Dark mode switch END -->
                                     </ul>
-                                    <!-- Profile dropdown END -->
                                 </li>
-                                <!-- Profile dropdown END -->
                             </ul>
                         </div>
-                        <!-- Top bar right END -->
                     </div>
                 </div>
             </nav>
-            <!-- Top bar END -->
 
             <!-- Page main content START -->
             <div class="page-content-wrapper border">

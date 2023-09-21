@@ -1,0 +1,25 @@
+:root {
+    --body-color: linear-gradient(90deg, #094d5e 0%, #cae28e 100%);
+    --container-color: linear-gradient(136deg, hsla(196, 25%, 60%, 0.815) 0%, hsl(193, 93%, 11%) 100%);
+  }
+  
+  body, html {
+    height: 100%;
+    background-repeat: no-repeat;
+    background-image: var(--body-color);
+    color: aliceblue;
+  }
+
+  
+  .button {
+    display: inline-block;
+    padding: 5px 10px;
+    font-size: 12px;
+    text-align: center;
+    text-decoration: none;
+    background-color: #27c741;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }

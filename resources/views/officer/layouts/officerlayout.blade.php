@@ -101,7 +101,7 @@
             <div class="container">
                 <!-- Logo START -->
                 <div class="d-flex align-items-center">
-                    <a class="navbar-brand" href="/AcademyCourses">
+                    <a class="navbar-brand" href="{{ route('/') }}">
                         <img class="navbar-brand-item" src="{{ asset('assets/images/police/head-png.png') }}"
                             alt="" width="100px" height="60px">
                     </a>
@@ -155,16 +155,12 @@
                         <!-- Links -->
                         <li><a class="dropdown-item" href="#"><i class="bi bi-person fa-fw me-2"></i>Edit
                                 Profile</a></li>
-                        <li><a class="dropdown-item" href="#"><i class="bi bi-gear fa-fw me-2"></i>Account
-                                Settings</a></li>
-                        <li><a class="dropdown-item" href="#"><i class="bi bi-info-circle fa-fw me-2"></i>Help</a>
-                        </li>
                         <form action="{{ route('officer.logout') }}" method="post" class="dropdown-item">
-                        <li>
-                            @csrf
+                            <li>
+                                @csrf
                                 <button type="submit" class="list-group-item btn btn-lg bg-danger-soft-hover">
                                     <i class="bi bi-power fa-fw me-2"></i>Sign Out</button>
-                                </li>
+                            </li>
                         </form>
                         <li>
                             <hr class="dropdown-divider">
@@ -194,10 +190,11 @@
         <section class="pt-0">
             <!-- Main banner background image -->
             <div class="container-fluid px-0">
-                <div class="bg-blue h-100px h-md-200px rounded-0"
-                    style="background:url(https://newsroom24x7.files.wordpress.com/2017/02/20170210_071153.png) no-repeat center center; background-size:cover;">
+                <div class="h-150px h-md-400px rounded-0"
+                    style="background:url({{ asset('assets/images/police/banner.png') }}) no-repeat center center; background-size:cover;">
                 </div>
             </div>
+
             <div class="container mt-n4">
                 <div class="row">
                     <!-- Profile banner START -->
@@ -264,35 +261,34 @@
                                         @php
                                             if ($current_route == 'officer.dashboard') {
                                                 $active = '';
-                                            } 
-                                            elseif ($current_route == 'officer.allstaff') {
+                                            } elseif ($current_route == 'officer.allstaff') {
                                                 $active = '';
-                                            }
+                                            } elseif ($current_route == 'officer.calendar') {
+                                                $active = '';
+                                            }  
                                             else {
                                                 $active = 'collapsed';
                                             }
                                         @endphp
                                         <a class="list-group-item {{ $current_route == 'officer.dashboard' ? 'active' : '' }}"
-                                                href="{{ route('officer.dashboard') }}"><i
+                                            href="{{ route('officer.dashboard') }}"><i
                                                 class="bi bi-ui-checks-grid fa-fw me-2"></i>Dashboard</a>
                                         <a class="list-group-item {{ $current_route == 'officer.allstaff' ? 'active' : '' }}
                                                 {{ $current_route == 'officer.addstaffmember' ? 'active' : '' }}"
-                                                href="{{ route('officer.allstaff') }}"><i
+                                            href="{{ route('officer.allstaff') }}"><i
                                                 class="bi bi-people fa-fw me-2"></i>Police Station Staff</a>
 
                                         <a class="list-group-item {{ $current_route == 'officer.tasks' ? 'active' : '' }}
                                                 {{ $current_route == 'officer.addtasks' ? 'active' : '' }} {{ $current_route == 'officer.managetasks.edit' ? 'active' : '' }}"
-                                                href="{{ route('officer.tasks') }}"><i
+                                            href="{{ route('officer.tasks') }}"><i
                                                 class="bi bi-star fa-fw me-2"></i>Tasks</a>
+
+                                        <a class="list-group-item {{ $current_route == 'officer.calendar' ? 'active' : '' }}"
+                                            href="{{ route('officer.calendar') }}"><i class="bi bi-calendar-date me-2"></i>
+                                            Slots</a>
 
                                         <a class="list-group-item" href="instructor-edit-profile.html"><i
                                                 class="bi bi-pencil-square fa-fw me-2"></i>Edit Profile</a>
-
-                                        <a class="list-group-item" href="instructor-setting.html"><i
-                                                class="bi bi-gear fa-fw me-2"></i>Settings</a>
-
-                                        <a class="list-group-item" href="instructor-delete-account.html"><i
-                                                class="bi bi-trash fa-fw me-2"></i>Delete Profile</a>
 
                                         <form action="{{ route('officer.logout') }}" method="post">
                                             @csrf
@@ -441,6 +437,8 @@
                 });
         };
     </script>
+    
+    @yield('javascript')
 
 </body>
 

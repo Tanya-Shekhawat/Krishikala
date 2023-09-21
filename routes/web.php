@@ -1,11 +1,15 @@
 <?php
 
-use App\Http\Controllers\AdminControllers\{AdminStationOfficer, CaseCategoryController, PoliceStationController};
-use App\Http\Controllers\GeneralController;
-use App\Http\Controllers\OfficerControllers\OfficerStaffController;
-use App\Http\Controllers\OfficerControllers\TaskController;
-use App\Http\Controllers\ProfileController;
+use App\Models\Task;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\GeneralController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\AdminControllers\{AdminStationOfficer, CaseCategoryController, AppointmentController};
+use App\Http\Controllers\UserControllers\UserTaskController;
+use App\Models\User;
+use App\Models\StationOfficer;
+use App\Models\Appointment;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,11 +25,26 @@ use Illuminate\Support\Facades\Route;
 // Route for Home Page
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('/');
+
+// Open Routes
+Route::get('/about', [GeneralController::class, 'aboutPage'])->name('about');
+Route::get('/contact', [GeneralController::class, 'contactPage'])->name('contact');
+
 
 // Routes for Normal User with Authentication Setup
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    $arr = [];
+    $tasks = Task::get();
+    foreach ($tasks as $item) {
+        foreach (json_decode($item->assigned_to) as $items) {
+            if ($items == Auth::user()->id) {
+                array_push($arr, $item->id);
+            }
+        }
+    }
+    // dd(count($arr));
+    return view('dashboard')->with(['tasks' => $arr]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
@@ -38,7 +57,25 @@ require __DIR__ . '/auth.php';
 
 // Routes for Officers with Authentication Setup
 Route::get('officer/dashboard', function () {
-    return view('officer.dashboard');
+    $tasks = Task::where(['assigned_by'=>Auth::guard('officer')->user()->name])->get();
+    $user = User::where(['station_name'=>App\Models\PoliceStation::
+        where(['id'=>Auth::guard('officer')->user()->station_name])->first()->name])->get();
+    // $user = User::where(['station_name'=>])->get();
+    $completed_task = 0;
+    $incompleted_task = 0;
+    // dd($user);
+
+    foreach($tasks as $items){
+        if($items->status == "Completed"){
+            $completed_task++;
+        }
+        if($items->status == "NotCompleted"){
+            $incompleted_task++;
+        }
+    }
+
+    return view('officer.dashboard')->with(['completed_task'=>$completed_task,
+        'tasks'=>$tasks, 'user'=>$user ]);
 })->middleware(['auth:officer', 'verified'])->name('officer.dashboard');
 
 Route::middleware('auth:officer')->group(function () {
@@ -49,9 +86,17 @@ Route::middleware('auth:officer')->group(function () {
 
 require __DIR__ . '/officerauth.php';
 
-// Routes for Admin with Authentication Setup
+// Routes for Admin
 Route::get('admin/dashboard', function () {
-    return view('admin.dashboard');
+    $station_officers = StationOfficer::get();
+    $users = User::get();
+    $tasks = Task::get();
+    $appointments = Appointment::get();
+    $pending_appoin = Appointment::where(['stat'=>0])->get();
+    $comp_tasks = Task::where(['status'=>"Completed"])->get();
+
+    return view('admin.dashboard')->with(['station_officers'=>$station_officers, 'users'=>$users,
+        'tasks'=>$tasks, 'comp_tasks'=>$comp_tasks, 'appointments' => $appointments, 'pending_appoin'=>$pending_appoin]);
 })->middleware(['auth:admin', 'verified'])->name('admin.dashboard');
 
 Route::middleware('auth:admin')->group(function () {
@@ -70,10 +115,10 @@ Route::post('/status', [GeneralController::class, 'changeStatus'])->name('status
 Route::group(['middleware' => ['auth:admin', 'verified'], 'prefix' => 'admin', 'as' => 'admin.'], function () {
 
     // Routes for Police Station 
-    Route::get('/allstations', [PoliceStationController::class, 'viewAllStation'])->name('allstations');
-    Route::get('/manageallstations', [PoliceStationController::class, 'addAllStation'])->name('manageallstations');
-    Route::post('/savestation', [PoliceStationController::class, 'saveAllStation'])->name('savestation');
-    Route::get('/manageallstations/edit', [PoliceStationController::class, 'updateAllStation'])->name('manageallstations.edit');
+    Route::get('/appointments', [AppointmentController::class, 'viewAllAppointments'])->name('appointments');
+    Route::get('/manageappointment', [AppointmentController::class, 'manageAppointment'])->name('manageappointment');
+    Route::post('/savestation', [AppointmentController::class, 'saveAllStation'])->name('savestation');
+    Route::get('/manageallstations/edit', [AppointmentController::class, 'updateAllStation'])->name('manageallstations.edit');
 
 
     // Routes for CRUD of Station Officer
@@ -91,33 +136,25 @@ Route::group(['middleware' => ['auth:admin', 'verified'], 'prefix' => 'admin', '
     Route::post('/savecasecate', [CaseCategoryController::class, 'saveCaseCategory'])->name('savecasecate');
     Route::get('/managecasecate/edit', [CaseCategoryController::class, 'updateCaseCategory'])->name('managecasecate.edit');
 });
-// Admin Previliages Routes ENDS
 
 
-// OFFICERS Previliages Routes STARTS
 Route::group(['middleware' => ['auth:officer', 'verified'], 'prefix' => 'officer', 'as' => 'officer.'], function () {
 
-    // Routes to get all the Police Staff Memeber details 
-    Route::get('/allstaff', [OfficerStaffController::class, 'showAllPoliceStaff'])->name('allstaff');
-    Route::get('/addstaffmember', [OfficerStaffController::class, 'openStaffMember'])->name('addstaffmember');
-    Route::post('/savestaff', [OfficerStaffController::class, 'saveStaffMember'])->name('savestaff');
-    Route::get('/managestaff/edit', [OfficerStaffController::class, 'updateStationStaff'])->name('managestaff.edit');
-
-    // Routes for tasks
-    Route::get('/tasks', [TaskController::class, 'showAllTasks'])->name('tasks');
-    Route::get('/addtasks', [TaskController::class, 'openTasks'])->name('addtasks');
-    Route::post('/savetasks', [TaskController::class, 'saveTasks'])->name('savetasks');
-    Route::get('/managetask/edit', [TaskController::class, 'updateTask'])->name('managetask.edit');
-
-
 });
-// OFFICERS Previliages Routes STARTSOFFICERS
 
 
-// USERS Previliages Routes STARTS
-Route::group(['middleware' => ['auth:user', 'verified'], 'prefix' => 'user', 'as' => 'user.'], function () {
+Route::group(['middleware' => ['auth:web', 'verified'], 'prefix' => 'user', 'as' => 'user.'], function () {
 
+    Route::get('/mytasks', [UserTaskController::class, 'getAssignedTask'])->name('mytasks');
+    Route::get('updatetask', [UserTaskController::class, 'openUpdateFormPage'])->name('updatetask');
+    Route::post('saveupdatetask', [UserTaskController::class, 'saveUserStatus'])->name('saveupdatetask');
     
-
+    // Routes for Locations for User
+    Route::get('/mylocations', [UserTaskController::class, 'getLocationData'])->name('mylocations');
+ 
 });
-// USERS Previliages Routes STARTSUSERS
+
+
+Route::get('/bookappointment', [UserTaskController::class, 'openAppointmentForm'])->name('bookappointment');
+Route::get('/timeslot', [UserTaskController::class, 'opentimeSlotForm'])->name('timeslot.php');
+Route::post('/saveappointment', [UserTaskController::class, 'saveUserApppointment'])->name('saveappointment');

@@ -25,6 +25,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('vendor/font-awesome/css/all.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('vendor/bootstrap-icons/bootstrap-icons.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('vendor/apexcharts/css/apexcharts.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('vendor/glightbox/css/glightbox.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('vendor/overlay-scrollbar/css/OverlayScrollbars.min.css') }}">
 
     <!-- Theme CSS -->
@@ -88,6 +89,8 @@
         .asktrick_label {
             color: red;
         }
+
+        /* @media (min-width:) */
     </style>
 
 </head>
@@ -102,22 +105,11 @@
                 <!-- Logo START -->
                 <div class="d-flex align-items-center">
                     <a class="navbar-brand" href="/AcademyCourses">
-                        <img class="navbar-brand-item" src="{{ asset('assets/images/police/head-png.png') }}"
-                            alt="" width="100px" height="60px">
+                        <img src="{{ asset('assets/images/police/head-png.png') }}" alt="" width="110px"
+                            height="60px">
                     </a>
                 </div>
                 <!-- Logo END -->
-
-                <!-- Responsive navbar toggler -->
-                <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false"
-                    aria-label="Toggle navigation">
-                    <span class="navbar-toggler-animation">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </span>
-                </button>
 
                 <!-- Main navbar START -->
                 <div class="navbar-collapse w-100 collapse" id="navbarCollapse">
@@ -130,8 +122,7 @@
                     <a class="avatar avatar-sm p-0" href="#" id="profileDropdown" role="button"
                         data-bs-auto-close="outside" data-bs-display="static" data-bs-toggle="dropdown"
                         aria-expanded="false">
-                        <img class="avatar-img rounded-circle" src="{{ Auth::guard('officer')->user()->image }}"
-                            alt="avatar">
+                        <img class="avatar-img rounded-circle" src="{{ Auth::user()->image }}" alt="avatar">
                     </a>
                     <ul class="dropdown-menu dropdown-animation dropdown-menu-end shadow pt-3"
                         aria-labelledby="profileDropdown">
@@ -140,12 +131,12 @@
                             <div class="d-flex align-items-center">
                                 <!-- Avatar -->
                                 <div class="avatar me-3">
-                                    <img class="avatar-img rounded-circle shadow"
-                                        src="{{ Auth::guard('officer')->user()->image }}" alt="avatar">
+                                    <img class="avatar-img rounded-circle shadow" src="{{ Auth::user()->image }}"
+                                        alt="avatar">
                                 </div>
                                 <div>
-                                    <a class="h6" href="#">{{ Auth::guard('officer')->user()->name }}</a>
-                                    <p class="small m-0">{{ Auth::guard('officer')->user()->email }}</p>
+                                    <a class="h6" href="#">{{ Auth::user()->name }}</a>
+                                    <p class="small m-0">{{ Auth::user()->email }}</p>
                                 </div>
                             </div>
                         </li>
@@ -194,8 +185,8 @@
         <section class="pt-0">
             <!-- Main banner background image -->
             <div class="container-fluid px-0">
-                <div class="bg-blue h-100px h-md-200px rounded-0"
-                    style="background:url(https://newsroom24x7.files.wordpress.com/2017/02/20170210_071153.png) no-repeat center center; background-size:cover;">
+                <div class="bg-blue h-100px h-md-400px rounded-0"
+                    style="background:url({{ asset('assets/images/police/banner.png') }}) no-repeat center center; background-size:cover;">
                 </div>
             </div>
             <div class="container mt-n4">
@@ -264,7 +255,7 @@
                                         @php
                                             if ($current_route == 'dashboard') {
                                                 $active = '';
-                                            } elseif ($current_route == 'mytasks') {
+                                            } elseif ($current_route == 'user.mytasks') {
                                                 $active = '';
                                             } else {
                                                 $active = 'collapsed';
@@ -274,19 +265,18 @@
                                             href="{{ route('dashboard') }}"><i
                                                 class="bi bi-ui-checks-grid fa-fw me-2"></i>Dashboard</a>
 
-                                        <a class="list-group-item {{ $current_route == 'mytasks' ? 'active' : '' }}
-                                                {{ $current_route == 'addstaffmember' ? 'active' : '' }}"
-                                            href="{{ route('mytasks') }}"><i
+                                        <a class="list-group-item {{ $current_route == 'user.mytasks' ? 'active' : '' }}
+                                                {{ $current_route == 'user.updatetask' ? 'active' : '' }}"
+                                            href="{{ route('user.mytasks') }}"><i
                                                 class="bi bi-people fa-fw me-2"></i>My Tasks</a>
 
-                                        <a class="list-group-item" href="instructor-review.html"><i
-                                                class="bi bi-star fa-fw me-2"></i>Reviews</a>
+                                        <a class="list-group-item {{ $current_route == 'user.mylocations' ? 'active' : '' }}
+                                                {{ $current_route == 'user.updatetask' ? 'active' : '' }}"
+                                            href="{{ route('user.mylocations') }}"><i 
+                                                class="bi bi-geo-alt-fill me-2"></i>Locations</a>
+
                                         <a class="list-group-item" href="instructor-edit-profile.html"><i
                                                 class="bi bi-pencil-square fa-fw me-2"></i>Edit Profile</a>
-                                        <a class="list-group-item" href="instructor-setting.html"><i
-                                                class="bi bi-gear fa-fw me-2"></i>Settings</a>
-                                        <a class="list-group-item" href="instructor-delete-account.html"><i
-                                                class="bi bi-trash fa-fw me-2"></i>Delete Profile</a>
 
                                         <form action="{{ route('logout') }}" method="post">
                                             @csrf
@@ -302,7 +292,7 @@
                     <!-- Left sidebar END -->
 
                     <!-- Main content START -->
-                    <div class="col-xl-9">
+                    <div class="col-xl-9 shadow rounded">
                         @yield('content')
                     </div>
                 </div>
@@ -324,6 +314,7 @@
     <script src="{{ asset('vendor/apexcharts/js/apexcharts.min.js') }}"></script>
     <script src="{{ asset('vendor/choices/js/choices.min.js') }}"></script>
     <script src="{{ asset('vendor/overlay-scrollbar/js/overlayscrollbars.min.html') }}"></script>
+    <script src="{{ asset('vendor/glightbox/js/glightbox.js') }}"></script>
 
     <!-- Template Functions -->
     <script src="{{ asset('assets/js/functions.js') }}"></script>
@@ -353,15 +344,13 @@
                 "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
             }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
 
-            $('#example2').DataTable({
-                "paging": true,
-                "lengthChange": false,
-                "searching": false,
-                "ordering": true,
-                "info": true,
-                "autoWidth": false,
+            $("#example3").DataTable({
                 "responsive": true,
-            });
+                "lengthChange": false,
+                "autoWidth": false,
+                "paging": true,
+                "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+            }).buttons().container().appendTo('#example3_wrapper .col-md-6:eq(0)');
         });
     </script>
 
@@ -369,11 +358,8 @@
     <script src="https://cdn.ckeditor.com/4.20.1/standard/ckeditor.js"></script>
 
     <script>
-        CKEDITOR.replace('review_text');
-        CKEDITOR.replace('about_us');
-        CKEDITOR.replace('terms_and_conditions');
-        CKEDITOR.replace('privacy_policy');
-        CKEDITOR.replace('copyright');
+        CKEDITOR.replace('staff_message');
+        CKEDITOR.replace('case_description');
         CKEDITOR.replace('message');
     </script>
 
