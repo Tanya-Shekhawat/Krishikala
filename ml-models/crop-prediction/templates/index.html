@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crop Prediction</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <style>
+        /* Style CSS */
+  /* Add the following CSS inside your <style> tag or in an external CSS file */
+  
+  /* Default styles */
+  body {
+      font-family: Arial, sans-serif;
+      background-color: #EBECF0;
+      padding: 20px;
+      margin: 0; /* Remove margin from body */
+  }
+  
+  .container {
+      background-color: #EBECF0;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0px 20px 40px rgba(0, 0, 0, 0.4), -10px -10px 20px rgba(255, 255, 255, 0.5);
+  }
+  
+  /* Add margin-top on screens larger than 768px (adjust the breakpoint as needed) */
+  @media (min-width: 769px) {
+      body {
+          margin-top: 100px;
+      }
+  }
+  
+  
+        h2 {
+            text-align: center;
+            margin: 20px 0;
+            font-weight: bold;
+            color: #4a4a4a;
+        }
+  
+        .form-label {
+            font-weight: bold;
+        }
+  
+        .custom-input {
+            width: 100%;
+            border: 1px solid #ccc;
+            border-radius: 20px;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: transparent;
+            font-size: 18px;
+            letter-spacing: 0.1em;
+            color: #61677C;
+            text-shadow: 1px 1px 0 #FFF;
+            outline: none;
+            border: none;
+            border-radius: 30px;
+            box-shadow: inset 2px 2px 5px #BABECC, inset -5px -5px 10px #FFF;
+            transition: all 0.2s ease-in-out;
+        }
+  
+        .custom-input:focus {
+            box-shadow: inset 1px 1px 2px #BABECC, inset -1px -1px 2px #FFF;
+        }
+  
+        /* Style for error message */
+        #rainfall-error {
+            color: red;
+            margin-left: 20px;
+        }
+  
+        .button {
+            background-color: transparent;
+            color: #61677C;
+            font-size: 20px;
+            font-weight: bold;
+            letter-spacing: 0.07em;
+            text-shadow: 1px 1px 0 #FFF;
+            padding: 8px 20px;
+            border: 0;
+            border-radius: 30px;
+            box-shadow:  3px 3px 5px #BABECC,  -4px -4px 10px #FFF;
+            outline: 0;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+            margin-top: 30px;
+        }
+  
+        .button:hover {
+            box-shadow: -2px -2px 5px #FFF, 2px 2px 5px #BABECC;
+        }
+  
+        .button:active {
+            box-shadow: inset 2px 2px 3px #BABECC, inset -2px -2px 3px #FFF;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2>Crop Prediction Based on (N, P, K), Temperature, Humidity, PH, Rainfall, and Season</h2>
+        <div class="row">
+            <div class="col-lg-6">
+                <form action="{{url_for('home')}}" method="post">
+                    <div class="form-group">
+                        <label for="s0" class="form-label">VALUE OF N (e.g. 90)</label>
+                        <input type="text" class="custom-input" name="s0" id="s0" aria-describedby="emailHelp" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="s1" class="form-label">VALUE OF P (e.g. 42)</label>
+                        <input type="text" class="custom-input" name="s1" id="s1" aria-describedby="emailHelp" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="s2" class="form-label">VALUE OF K (e.g. 43)</label>
+                        <input type="text" class="custom-input" name="s2" id="s2" aria-describedby="emailHelp" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="season" class="form-label">Select Season</label>
+                             <select class="custom-input" id="season" name="s7" required>
+                                 <option selected value="">Choose...</option>
+                                 <option value="0">Monsoon</option>
+                                 <option value="1">Summer</option>
+                                 <option value="2">Winter</option>
+                                 <option value="3">Spring</option>
+                                 <option value="4">Year Round</option>
+                             </select>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label for="s3" class="form-label">Value of Temperature (e.g. 20.87)</label>
+                    <input type="text" class="custom-input" name="s3" id="s3" aria-describedby="emailHelp" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="s4" class="form-label">Value of Humidity (e.g. 82.02)</label>
+                    <input type="text" class="custom-input" name="s4" id="s4" aria-describedby="emailHelp" required>
+
+                    </div>
+
+                    <div class="form-group">
+                        <label for="s5" class="form-label">Value of pH (e.g. 6.50)</label>
+                    <input type="text" class="custom-input" name="s5" id="s5" aria-describedby="emailHelp" required>
+
+                    </div>
+
+                    <div class="form-group">
+                        <label for="s6" class="form-label" id="rainfall-label">Rainfall (mm)</label>
+                    <input style="margin-right: 30px; " type="text" class="custom-input" name="s6" id="s6" aria-describedby="emailHelp" required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center">
+                <button type="submit" name="submit" value="predict" class="button">Submit</button>
+            </div>
+        </form>
+    </div>
+
+
+
+</body>
+<script>
+    document.getElementById('season').addEventListener('change', function () {
+        var selectedSeason = this.value;
+        var rainfallLabel = document.getElementById('rainfall-label');
+
+        var rainfallRange = {
+            '0': 'Rainfall range: 50 - 300 mm (Monsoon)',
+            '1': 'Rainfall range: 50 - 150 mm (Summer)',
+            '2': 'Rainfall range: 0 - 150 mm (Winter)',
+            '3': 'Rainfall range: 50 - 300 mm (Spring)',
+            '4': 'Rainfall range: 0 - 300 mm (Year Round)'
+        };
+
+        if (selectedSeason in rainfallRange) {
+            rainfallLabel.textContent = rainfallRange[selectedSeason];
+        } else {
+            rainfallLabel.textContent = 'Rainfall (mm)';
+        }
+    });
+</script>
+</body>
+</html>

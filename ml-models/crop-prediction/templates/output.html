@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recommended Crop</title>
+    <style>
+
+body {
+            font-family: Arial, sans-serif;
+            background-color: #EBECF0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            max-width: 1074px;
+            background-color: #EBECF0;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.1), -10px -10px 20px rgba(255, 255, 255, 0.5);
+        }
+        h1 {
+            font-weight: bold;
+            margin-top: 20px;
+            color: #43a053;
+            text-align: center;
+        }
+
+        img {
+            max-width: 60%;
+            height: auto;
+            margin-top: 20px;
+            border: 2px solid #007bff;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+    <h1>Recommended Crop:</h1>
+
+    {% if data == 'rice' %}
+        <h1>Rice</h1>
+        <h4>Rice Farming Expenses</h4>
+    <ul>
+        <li>Seed Cost: 600 rupees per acre</li>
+        <li>Planting Cost: 4000 rupees per acre</li>
+        <li>Labor Charges: 1000 rupees per acre</li>
+        <li>Disease Spray, Fertilizers: 5000 rupees per acre</li>
+        <li>DAP and Urea: 4000 rupees per acre</li>
+        <li>Harvesting Cost: 4000 rupees per acre</li>
+    </ul>
+    <h5>Total Expences :- 18600</h5>
+    <h4>Profit   60000 - 18600  = 42000</h4>
+        <br>
+
+       {% elif data == 'maize' %}
+       <h1>maize</h1>
+       <h1>Maize Farming Expenses</h1>
+    <ul>
+        <li>Seed Cost: 700 rupees per acre</li>
+        <li>Planting Cost: 3500 rupees per acre</li>
+        <li>Labor Charges: 1500 rupees per acre</li>
+        <li>Disease Spray, Fertilizers: 5500 rupees per acre</li>
+        <li>DAP and Urea: 4200 rupees per acre</li>
+        <li>Harvesting Cost: 3800 rupees per acre</li>
+    </ul>
+
+    <h2>Total Expenses for Maize Farming:</h2>
+    <p>25400 rupees per acre</p>
+
+    <h2>Profit Calculation for Maize Farming:</h2>
+    <p>Total Revenue: 40000 rupees per acre</p>
+    <p>Total Expenses: 25400 rupees per acre</p>
+    <p>Profit: 40000 - 25400 = 16400 rupees per acre</p>
+       {% elif data == 'chickpea' %}
+       <h1>chickpea</h1>
+    
+       {% elif data == 'kidneybeans' %}
+       <h1>kidneybeans  </h1>
+
+       {% elif data == 'pigeonpeas' %}
+       <h1>pigeonpeas     </h1>
+       {% elif data == 'mothbeans' %}
+       <h1>mothbeans     </h1>
+       {% elif data == 'mungbean' %}
+       <h1>mungbean</h1>
+       {% elif data == 'blackgram' %}
+       <h1>blackgram</h1>
+       {% elif data == 'lentil' %}
+       <h1>lentil</h1>
+       {% elif data == 'pomegranate' %}
+       <h1>pomegranate</h1>
+       {% elif data == 'banana' %}
+       <h1>banana    </h1>
+       {% elif data == 'mango' %}
+       <h1>Common Cold</h1>
+       {% elif data == 'grapes' %}
+       <h1>grapes</h1>
+       {% elif data == 'watermelon' %}
+       <h1>watermelon</h1>
+       {% elif data == 'muskmelon' %}
+       <h1>muskmelon</h1>
+       {% elif data == 'apple' %}
+       <h1>apple</h1>
+       {% elif data == 'orange' %}
+       <h1>orange</h1>
+       {% elif data == 'papaya' %}
+       <h1>papaya</h1>
+       {% elif data == 'cotton' %}
+       <h1>cotton</h1>
+       {% elif data == 'jute' %}
+       <h1>jute</h1>
+       {% elif data == 'coffee' %}
+       <h1>coffee</h1>
+       {% else %}
+        <h1>amit: {{ data }}</h1>
+    {% endif %}
+</div>
+</body>
+</html>
