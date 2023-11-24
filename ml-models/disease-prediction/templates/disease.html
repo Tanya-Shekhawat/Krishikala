@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Disease Prediction</title>
+    <link rel="stylesheet" href="../static/css/styles.css">
+    <link rel="stylesheet" href="../static/css/swiper-bundle.min.css">
+    
+    <style>
+               .upload-container {
+            max-width: 400px;
+            margin: auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .upload-container h1 {
+            margin-bottom: 20px;
+        }
+
+        .upload-container input[type="file"] {
+            display: none;
+        }
+
+        .upload-btn-wrapper {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+        }
+
+        .btn {
+            border: 2px solid gray;
+            color: gray;
+            background-color: white;
+            padding: 8px 20px;
+            border-radius: 8px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .containerz {
+            text-align: center;
+            background-color: rgba(255, 255, 255, 0.2); 
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); 
+            display: inline-block; 
+            margin-left: 465px;
+        }
+
+        .upload-btn-wrapper input[type=file] {
+            font-size: 100px;
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+        }
+
+        .upload-btn-wrapper .btn {
+            border: none;
+            padding: 10px 20px;
+            font-size: 18px;
+        }
+
+        .upload-btn-wrapper .btn:hover {
+            background-color: #f3f3f3;
+        }
+
+        .upload-btn-wrapper .file-name {
+            margin-left: 10px;
+        }
+
+        .submit-btn {
+            margin-top: 20px;
+            padding: 7px 10px;
+            background-color: #cc6a49;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .submit-btn2 {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #62a364;
+            border: none;
+            /* border-radius: 5px; */
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .footer {
+            background-color: #343232;
+            text-align: center;
+            padding: 10px;
+            position: inherit;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+        }
+
+        .breadcam_bg-green {
+
+            background-image: url(../static/images/diseasebanner.png);
+}
+.bradcam_area {
+    text-align: center;
+  background-size: cover;
+  background-position: center center;
+  padding: 230px 0;
+  background-position: bottom;
+  background-repeat: no-repeat;
+}
+
+  
+@media (min-width: 400px) and (max-width: 991px) {
+    /* line 10, ../../Arafath/CL/january 2020/240. Animal/HTML/scss/_bradcam.scss */
+    .bradcam_area {
+      padding: 140px 0;
+    }
+  }
+  
+  @media (max-width: 400px) {
+    /* line 10, ../../Arafath/CL/january 2020/240. Animal/HTML/scss/_bradcam.scss */
+    .bradcam_area {
+      padding: 70px 0;
+    }
+  }
+  
+  /* line 22, ../../Arafath/CL/january 2020/240. Animal/HTML/scss/_bradcam.scss */
+  .bradcam_area h3 {
+    font-size: 50px;
+    color: rgb(142, 139, 139);
+    font-weight: 900;
+    margin-bottom: 0;
+    font-family: "Poppins", sans-serif;
+    text-transform: capitalize;
+  }
+  
+
+
+/* line 1, ../../Arafath/CL/january 2020/240. Animal/HTML/scss/_bradcam.scss */
+.breadcam_bg2 {
+  background-image: url(../static/images/diseasebanner.png);
+}
+    </style>
+</head>
+<body>
+    <header class="header" id="header">
+        <nav class="nav container">
+            <a href="http://127.0.0.1:8349/" class="nav__logo"  style="color:hsl(104, 28%, 35%);">
+                <img src="../static/images/finalogo.png" alt="" class="nav__logo-img">
+                <!-- KrashiKala -->
+            </a>
+
+            <div class="nav__menu" id="nav-menu">
+                <ul class="nav__list">
+                    <li class="nav__item">
+                        <a href="http://127.0.0.1:8349/" class="nav__link active-link" style="color:hsl(104, 28%, 35%);">Home</a>
+                    </li>
+
+                    <li class="nav__item">
+                        <a href="http://127.0.0.1:8349/about" class="nav__link" style="color:hsl(104, 28%, 35%);">About us</a>
+                    </li>
+
+                    <li class="nav__item">
+                        <a href="http://127.0.0.1:8349/contact" class="nav__link" style="color:hsl(104, 28%, 35%);">Contact</a>
+                    </li>
+
+                    <li class="nav__item">
+                        <a href="http://127.0.0.1:8349/login" class="nav__link" style="color:hsl(104, 28%, 35%);">Login/Register</a>
+                    </li>
+
+                    </ul>
+
+                <div class="nav__close" id="nav-close">
+                    <i class='bx bx-x'></i>
+                </div>
+
+                <img src="../static/images/nav-img.png" alt="" class="nav__img">
+            </div>
+
+            <div class="nav__toggle" id="nav-toggle">
+                <i class='bx bx-grid-alt'></i>
+            </div>
+
+        </nav>
+    </header>
+    <div style="margin-top: 90px;" class="bradcam_area breadcam_bg-green">
+        <div class="container">
+            <div class="row">
+                <br><br><br>
+                <div class="col-lg-12">
+                    <div class="bradcam_text text-center">
+                        <!-- <h3 style="color: rgb(248, 244, 244);">Disease Prediction</h3> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<br><br>
+<div class="containerz">
+    <h6  style="font-family: Arial, sans-serif; font-size: 1.7rem;  color: black; text-align: center;"><b>Identify Plants Disease and Recommended Treatment </b></h6>
+    <center>
+        <!-- <img style="margin-top: 30px; width: 400px;" src="../static/images/finalogo.png" alt=""> -->
+        <br>
+        <h1 style="color: black;">Try it</h1>
+
+        <!-- <form action="/upload" method="post" enctype="multipart/form-data">
+            <input type="file" name="image" accept="image/*">
+            <input type="submit" value="Upload">
+        </form> -->
+        <form id="upload-form" method="post" enctype="multipart/form-data">
+            <div class="upload-btn-wrapper">
+                <button class="submit-btn2" >Upload a file</button>
+                <input type="file" id="file-input" name="image" accept="image/*">
+            </div>
+            <p class="file-name"></p>
+            <input type="submit" value="Submit" class="submit-btn">
+        </form>
+
+        {% if uploaded_image %}
+        <h2>Uploaded Image:</h2>
+        <div id="image-container" style="max-width: 400px; max-height: 400px; overflow: hidden;">
+            <img src="{{ url_for('static', filename=uploaded_image) }}" alt="Uploaded Image" style="width: 100%;">
+        </div>
+        {% endif %}
+
+        {% if crop_type %}
+        <h2>Crop Type Prediction: {{ crop_type }}</h2>
+        {% endif %}
+
+        {% if status %}
+        <h2>Status: {{ status }}</h2>
+        {% endif %}
+    </center>
+</div>
+<br><br><br>
+    <div class="footer">
+        <p style="color: white;">&copy; Plants Disease and Recommended Treatment </p>
+    </div>
+</body>
+</html>

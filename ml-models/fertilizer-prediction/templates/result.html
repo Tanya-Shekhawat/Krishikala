@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fertilizer Prediction</title>
+    <style>
+              body {
+          font-family: Arial, sans-serif;
+          background-color: #EBECF0;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 100vh;
+          margin: 0;
+      }
+
+      .container {
+          max-width: 1074px;
+          margin-top: -400px;
+          background-color: #EBECF0;
+          padding: 30px;
+          border-radius: 20px;
+          box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.1), -10px -10px 20px rgba(255, 255, 255, 0.5);
+      }
+    </style>
+</head>
+<body>
+    <div class="container">
+             <h1>Recomended Fertilizer:- </h1>
+            
+
+        
+        </h1>
+        {% if data == 'Urea' %}
+        <h1>Urea</h1>
+
+
+        {% elif data == 'DAP' %}
+        <h1>DAP</h1>
+
+
+        {% elif data == '14-35-14' %}
+        <h1>14-35-14</h1>
+     
+        {% elif data == '28-28' %}
+        <h1>28-28  </h1>
+
+        {% elif data == '17-17-17' %}
+        <h1>17-17-17     </h1>
+
+
+        {% elif data == '20-20' %}
+        <h1>20-20     </h1>
+
+
+        {% elif data == '10-26-26' %}
+        <h1>10-26-26</h1>
+
+         {% else %}
+        <h1>amit: {{ data }}</h1>
+    {% endif %}
+</div>
+
+    </center>
+
+
+    </section>
+    
+</body>
+</html>
