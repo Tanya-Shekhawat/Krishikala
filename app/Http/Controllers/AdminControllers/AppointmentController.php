@@ -20,5 +20,18 @@ class AppointmentController extends Controller
         return view('admin/newappointment');
     }
 
+    public function confirmAppointment(Request $request)
+    {
+        $appoint_id = $request->id;
+
+        $appointments = Appointment::find($appoint_id);
+        $apyment_done = "Not Done";
+
+        if($appointments->payment_status == "Paid"){
+            $apyment_done = "Done";
+        }
+        return view('admin.doctor.confirmappointment')->with(['appointments'=>$appointments, 'payment_done'=>$apyment_done]);
+    }
+
 
 }

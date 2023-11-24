@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\UserControllers;
 
 use App\Models\Task;
+use Razorpay\Api\Api;
+use App\Models\UserTime;
+use App\Models\Appointment;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Appointment;
-use App\Models\UserTime;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Date;
-use Illuminate\Support\Facades\Redis;
+use Illuminate\Support\Facades\Session;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class UserTaskController extends Controller
@@ -106,7 +106,7 @@ class UserTaskController extends Controller
 
         $req->validate([
             'name' => 'required',
-            'gmail' => 'required','unique',
+            'gmail' => 'required', 'unique',
             'phone' => 'required',
             'gender' => 'required',
             'agegroup' => 'required',
@@ -129,8 +129,74 @@ class UserTaskController extends Controller
 
         $save_appoint->save();
 
-        Alert::success('Appointment Booked', 'Your appointment has been booked successfully');
+        session(['appoint_id' => $save_appoint->id]);
+        session(['total_amount' => 60]);
 
-        return redirect()->back()->with(['save_message' => "Appointment Booked Successfully"]);
+        return redirect()->route('razorpay');
     }
+
+    // Razorpay Integration Page
+    function razorpayIntegration(Request $request)
+    {
+        $ids = $request->id;
+        // $room_booking = Roombooking::find($ids);
+        $total_amount = [];
+        $booking_id = [];
+
+        if (Session::has('appoint_id')) {
+            $booking_id['appoint_id'] = Session::get('appoint_id');
+        }
+
+        return view('users.razorpay', with([$total_amount, $booking_id]));
+    }
+
+    // Payment Successfull Page
+    function saveRazorpay(Request $request)
+    {
+        $booking_id = $request->booking_id;
+        $save_payment = Appointment::find($booking_id);
+
+        $input = $request->all();
+
+        $api = new Api(env('RAZORPAY_KEY'), env('RAZORPAY_SECRET'));
+        $payment = $api->payment->fetch($input['razorpay_payment_id']);
+
+        if (count($input)  && !empty($input['razorpay_payment_id'])) {
+            try {
+                $response = $api->payment->fetch($input['razorpay_payment_id']);
+
+                $save_payment->transaction_id = $input['razorpay_payment_id'];
+            } catch (\Exception $e) {
+                return  $e->getMessage();
+                return redirect()->back();
+            }
+        }
+
+        $save_payment->payment_status = "Paid";
+
+        $save_payment->save();
+
+        Alert::success('Appointment Successfully completed', 'Appointment Successfully completed');
+
+        session(['transaction_id' => $save_payment->transaction_id]);
+
+        return redirect()->route('thankyou');
+    }
+
+    public function appointmentThankyou()
+    {
+        if(Session::has('transaction_id')){
+            $transaction_id[] = Session::get('transaction_id');
+        } else {
+            $transaction_id[] = "12345o";
+        }
+        return view('users.thankyou')->with([$transaction_id]);
+    }
+
+    public function helpPage()
+    {
+        return view('help');
+    }
+
+
 }

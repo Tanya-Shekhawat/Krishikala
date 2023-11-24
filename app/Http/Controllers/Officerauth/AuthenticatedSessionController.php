@@ -18,7 +18,7 @@ class AuthenticatedSessionController extends Controller
      */
     public function create(): View
     {
-        return view('officer.auth.login');
+        return view('doctor.auth.login');
     }
 
     /**
@@ -28,16 +28,16 @@ class AuthenticatedSessionController extends Controller
     {
         $request->authenticate();
 
-        if(Auth::guard('officer')->user()->is_verified==0 || Auth::guard('officer')->user()->status==0)
-        {
-            Auth::guard('officer')->logout();
-            $request->session()->invalidate();
-            $request->session()->regenerateToken();
+        // if(Auth::guard('doctor')->user()->is_verified==0 || Auth::guard('doctor')->user()->status==0)
+        // {
+        //     Auth::guard('doctor')->logout();
             
-            Alert::error('Not Verified','Your account is not verified yet');
+        //     Alert::error('Not Verified','Your account is not verified yet');
             
-            return redirect()->route('officer.login');
-        }
+        //     return redirect()->route('doctor.login');
+        // }
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
 
         $request->session()->regenerate();
 
@@ -49,7 +49,7 @@ class AuthenticatedSessionController extends Controller
      */
     public function destroy(Request $request): RedirectResponse
     {
-        Auth::guard('officer')->logout();
+        Auth::guard('doctor')->logout();
 
         $request->session()->invalidate();
 

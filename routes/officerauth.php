@@ -11,7 +11,7 @@ use App\Http\Controllers\Officerauth\RegisteredUserController;
 use App\Http\Controllers\Officerauth\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
 
-Route::group(['middleware' => ['guest:officer'], 'prefix' => 'officer', 'as' => 'officer.'], function () {
+Route::group(['middleware' => ['guest:doctor'], 'prefix' => 'doctor', 'as' => 'doctor.'], function () {
     Route::get('register', [RegisteredUserController::class, 'create'])
         ->name('register');
 
@@ -35,7 +35,7 @@ Route::group(['middleware' => ['guest:officer'], 'prefix' => 'officer', 'as' => 
         ->name('password.store');
 });
 
-Route::group(['middleware' => ['auth:officer'], 'prefix'=>'officer','as'=>'officer.'], function(){
+Route::group(['middleware' => ['auth:doctor'], 'prefix'=>'doctor','as'=>'doctor.'], function(){
     Route::get('verify-email', EmailVerificationPromptController::class)
         ->name('verification.notice');
 

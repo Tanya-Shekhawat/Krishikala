@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\AdminControllers;
 
+use App\Models\Admin;
 use Illuminate\Http\Request;
+use App\Models\PoliceStation;
 use App\Models\StationOfficer;
 use App\Http\Controllers\Controller;
-use App\Models\PoliceStation;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -25,7 +26,7 @@ class AdminStationOfficer extends Controller
     function addStationOfficer()
     {
         $police_station = PoliceStation::get();
-        return view('admin.police.manageofficer')->with(['police_station'=>$police_station]);
+        return view('admin.police.manageofficer')->with(['police_station' => $police_station]);
     }
 
     // Save the details of Station Officer 
@@ -62,17 +63,14 @@ class AdminStationOfficer extends Controller
             $add_station_officer->station_address = $request->station_address;
             $add_station_officer->station_pincode = $request->station_pincode;
             $add_station_officer->post = $request->post;
-            $add_station_officer->joining_date = Date('Y-m-d',strtotime($request->joining_date));
+            $add_station_officer->joining_date = Date('Y-m-d', strtotime($request->joining_date));
 
             $add_station_officer->save();
 
             Alert::success('Station Officer Details Added', 'Station Officer Details successfully Added');
 
             return redirect()->route('admin.officers');
-
-        } 
-        else 
-        {
+        } else {
             $request->validate([
                 'name' => 'required',
                 'email' => 'required',
@@ -105,7 +103,7 @@ class AdminStationOfficer extends Controller
             $update_station_officer->station_address = $request->station_address;
             $update_station_officer->station_pincode = $request->station_pincode;
             $update_station_officer->post = $request->post;
-            $update_station_officer->joining_date = Date('Y-m-d',strtotime($request->joining_date));
+            $update_station_officer->joining_date = Date('Y-m-d', strtotime($request->joining_date));
 
             $update_station_officer->save();
 
@@ -121,6 +119,45 @@ class AdminStationOfficer extends Controller
         $police_station = PoliceStation::get();
         $officer_details = StationOfficer::find($request->id);
 
-        return view('admin.police.manageofficer')->with(['officer_details'=>$officer_details,'police_station'=>$police_station]);
+        return view('admin.police.manageofficer')->with(['officer_details' => $officer_details, 'police_station' => $police_station]);
+    }
+
+    // Function to update Profile
+    function myProfile()
+    {
+        $admin = Admin::find(Auth::guard('admin')->user()->id);
+        return view('admin.profile')->with(['admin_details' => $admin]);
+    }
+
+    function saveProfileDetails(Request $request)
+    {
+
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required',
+            'image' => 'mimes:jpg,jpeg,png',
+        ]);
+
+        $admin = Admin::find(Auth::guard('admin')->user()->id);
+
+        $admin->name = $request->input('name');
+        $admin->email = $request->input('email');
+        // if ($request->hasFile('image')) {
+        //     @unlink('storage/app/' . $admin->profile_image);
+        //     $admin->profile_image = $request->file('image')->store('public/images');
+        // }
+
+        if ($request->hasFile('image')) {
+            $response = Cloudinary::upload($request->file('image')->getRealPath())->getSecurePath();
+            $admin->profile_image = $response;
+        } else {
+            $admin->profile_image = "No Image";
+        }
+
+        $admin->save();
+
+        Alert::success('Info Saved', 'Your basic info is saved');
+
+        return redirect()->route('admin.dashboard');
     }
 }

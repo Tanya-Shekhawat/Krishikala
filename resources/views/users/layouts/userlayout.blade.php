@@ -24,12 +24,10 @@
     <!-- Plugins CSS -->
     <link rel="stylesheet" type="text/css" href="{{ asset('vendor/font-awesome/css/all.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('vendor/bootstrap-icons/bootstrap-icons.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('vendor/apexcharts/css/apexcharts.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('vendor/glightbox/css/glightbox.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('vendor/overlay-scrollbar/css/OverlayScrollbars.min.css') }}">
 
-    <!-- Theme CSS -->
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/style.css') }}">
+    {{-- Navbar CSS --}}
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/assets/css/styles.css') }}">
     {{-- jQuery CDN --}}
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 
@@ -90,6 +88,22 @@
             color: red;
         }
 
+        .dashboard_menu {
+            margin: 0px 150px;
+        }
+
+        @media(max-width: 769px) {
+            .dashboard_menu {
+                margin: 0px 100px;
+            }
+        }
+
+        @media(max-width: 576px) {
+            .dashboard_menu {
+                margin: 0px;
+            }
+        }
+
         /* @media (min-width:) */
     </style>
 
@@ -97,122 +111,119 @@
 
 <body>
 
-    <!-- Header START -->
-    <header class="navbar-light navbar-sticky">
-        <!-- Logo Nav START -->
-        <nav class="navbar navbar-expand-xl">
-            <div class="container">
-                <!-- Logo START -->
-                <div class="d-flex align-items-center">
-                    <a class="navbar-brand" href="/AcademyCourses">
-                        <img src="{{ asset('assets/images/police/head-png.png') }}" alt="" width="110px"
-                            height="60px">
-                    </a>
-                </div>
-                <!-- Logo END -->
+    <header class="header" id="header">
+        <nav class="nav mx-5">
+            <a href="{{ route('/') }}" class="nav__logo" style="color:hsl(104, 28%, 35%);">
+                <img src="{{ asset('assets/assets/img/logofinal.png') }}" alt="" class="nav__logo-img"
+                    style="width: 200px; height: 60px">
+            </a>
+            <div class="nav__menu" id="nav-menu">
+                <ul class="nav__list">
+                    <li class="nav__item">
+                        <a href="#home" class="nav__link active-link" style="color:hsl(104, 28%, 35%);">Home</a>
+                    </li>
+                    <li class="nav__item">
+                        <a href="#about" class="nav__link" style="color:hsl(104, 28%, 35%);">About us</a>
+                    </li>
+                    <li class="nav__item">
+                        <a href="{{ route('feedback') }}" class="nav__link"
+                            style="color:hsl(104, 28%, 35%);">Feedback</a>
+                    </li>
+                    <li class="nav__item">
+                        <a href="#new" class="nav__link" style="color:hsl(104, 28%, 35%);">Contact Us</a>
+                    </li>
+                    @if (isset(Auth::user()->id))
+                        <a href="{{ route('dashboard') }}" class="button button--ghost"
+                            style="color:hsl(104, 28%, 35%);">Hello {{ Auth::user()->name }}</a>
+                    @else
+                        <a href="{{ route('login') }}" class="button button--ghost"
+                            style="color:hsl(104, 28%, 35%);">Login</a>
+                    @endif
+                    <li class="nav__item" id="google_translate_element">
 
-                <!-- Main navbar START -->
-                <div class="navbar-collapse w-100 collapse" id="navbarCollapse">
-
-                </div>
-                <!-- Main navbar END -->
-
-                <!-- Profile START -->
-                <div class="dropdown ms-1 ms-lg-0">
-                    <a class="avatar avatar-sm p-0" href="#" id="profileDropdown" role="button"
-                        data-bs-auto-close="outside" data-bs-display="static" data-bs-toggle="dropdown"
-                        aria-expanded="false">
-                        <img class="avatar-img rounded-circle" src="{{ Auth::user()->image }}" alt="avatar">
-                    </a>
-                    <ul class="dropdown-menu dropdown-animation dropdown-menu-end shadow pt-3"
-                        aria-labelledby="profileDropdown">
-                        <!-- Profile info -->
-                        <li class="px-3 mb-3">
-                            <div class="d-flex align-items-center">
-                                <!-- Avatar -->
-                                <div class="avatar me-3">
-                                    <img class="avatar-img rounded-circle shadow" src="{{ Auth::user()->image }}"
-                                        alt="avatar">
-                                </div>
-                                <div>
-                                    <a class="h6" href="#">{{ Auth::user()->name }}</a>
-                                    <p class="small m-0">{{ Auth::user()->email }}</p>
-                                </div>
+                    </li>
+                    {{-- <li class="whether_api">
+                        @php
+                            $curl = curl_init();
+                            
+                            curl_setopt_array($curl, [
+                                CURLOPT_URL => 'https://weather-by-api-ninjas.p.rapidapi.com/v1/weather?city=Bhopal',
+                                CURLOPT_RETURNTRANSFER => true,
+                                CURLOPT_ENCODING => '',
+                                CURLOPT_MAXREDIRS => 10,
+                                CURLOPT_TIMEOUT => 30,
+                                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                                CURLOPT_CUSTOMREQUEST => 'GET',
+                                CURLOPT_HTTPHEADER => ['X-RapidAPI-Host: weather-by-api-ninjas.p.rapidapi.com', 'X-RapidAPI-Key: a7fb0d3933mshce6c11a1c4f7b6cp1b45bcjsn745241cdb7ec'],
+                            ]);
+                            
+                            $response = curl_exec($curl);
+                            $err = curl_error($curl);
+                            
+                            curl_close($curl);
+                            
+                            if ($err) {
+                                'cURL Error #:' . $err;
+                            } else {
+                                $ans = json_decode($response, true);
+                            }
+                        @endphp
+                        <div class="row">
+                            <div class="col-6 p-0">
+                                <img src="{{ asset('assets/img/wethersun.png') }}" alt=""
+                                    style="width: 50px; height: 50px;">
                             </div>
-                        </li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-                        <!-- Links -->
-                        <li><a class="dropdown-item" href="#"><i class="bi bi-person fa-fw me-2"></i>Edit
-                                Profile</a></li>
-                        <li><a class="dropdown-item" href="#"><i class="bi bi-gear fa-fw me-2"></i>Account
-                                Settings</a></li>
-                        <li><a class="dropdown-item" href="#"><i class="bi bi-info-circle fa-fw me-2"></i>Help</a>
-                        </li>
-                        <form action="{{ route('logout') }}" method="post" class="dropdown-item">
-                            <li>
-                                @csrf
-                                <button type="submit" class="list-group-item btn btn-lg bg-danger-soft-hover">
-                                    <i class="bi bi-power fa-fw me-2"></i>Sign Out</button>
-                            </li>
-                        </form>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-                        <!-- Dark mode switch START -->
-                        <li>
-                            <div class="modeswitch-wrap" id="darkModeSwitch">
-                                <div class="modeswitch-item">
-                                    <div class="modeswitch-icon"></div>
-                                </div>
-                                <span>Dark mode</span>
+                            <div class="col-6 p-0">
+                                <p class="max_temp m-0"
+                                    style="color: rgb(255, 72, 0); font-weight:600; font-size:16px;">
+                                    {{ $ans['max_temp'] }} °C</p>
+                                <p class="min_temp m-0" style="color: rgb(34, 9, 1); font-weight:500; font-size:14px;">
+                                    {{ $ans['min_temp'] }} °C</p>
                             </div>
-                        </li>
-                        <!-- Dark mode switch END -->
-                    </ul>
+                        </div>
+                    </li> --}}
+                </ul>
+                <div class="nav__close" id="nav-close">
+                    <i class='bx bx-x'></i>
                 </div>
-                <!-- Profile START -->
+                <img src="assets/img/nav-img.png" alt="" class="nav__img">
+            </div>
+            <div class="nav__toggle" id="nav-toggle">
+                <i class='bx bx-grid-alt'></i>
             </div>
         </nav>
-        <!-- Logo Nav END -->
     </header>
-    <!-- Header END -->
 
-    <!-- **************** MAIN CONTENT START **************** -->
     <main>
-        <!-- Page Banner START -->
         <section class="pt-0">
-            <!-- Main banner background image -->
             <div class="container-fluid px-0">
                 <div class="bg-blue h-100px h-md-400px rounded-0"
-                    style="background:url({{ asset('assets/images/police/banner.png') }}) no-repeat center center; background-size:cover;">
+                    style="background:url({{ asset('assets/img/newimg/bg-img/ds.png') }}) no-repeat center center; background-size:cover;">
                 </div>
             </div>
             <div class="container mt-n4">
                 <div class="row">
-                    <!-- Profile banner START -->
                     <div class="col-12">
                         <div class="card bg-transparent card-body p-0">
                             <div class="row d-flex justify-content-between">
-                                <!-- Avatar -->
                                 <div class="col-auto mt-4 mt-md-0">
                                     <div class="avatar avatar-xxl mt-n3">
                                         <img class="avatar-img rounded-circle border border-white border-3 shadow"
-                                            src="{{ Auth::user()->image }}" alt="">
+                                            src="@if (isset(Auth::user()->id)) {{ Auth::user()->profile_image }} @endif"
+                                            alt="">
                                     </div>
                                 </div>
-                                <!-- Profile info -->
                                 <div class="col d-md-flex justify-content-between align-items-center mt-4">
                                     <div>
-                                        <h1 class="my-1 fs-4">{{ Auth::user()->name }}</h1>
+                                        <h1 class="my-1 fs-4">
+                                            @if (isset(Auth::user()->id))
+                                                {{ Auth::user()->name }}
+                                            @endif
+                                        </h1>
                                     </div>
                                 </div>
                             </div>
-                            <!-- Profile banner END -->
 
-                            <!-- Advanced filter responsive toggler START -->
-                            <!-- Divider -->
                             <hr class="d-xl-none">
                             <div class="col-12 col-xl-3 d-flex justify-content-between align-items-center">
                                 <a class="h6 mb-0 fw-bold d-xl-none" href="#">Menu</a>
@@ -221,15 +232,14 @@
                                     <i class="fas fa-sliders-h"></i>
                                 </button>
                             </div>
-                            <!-- Advanced filter responsive toggler END -->
                         </div>
                     </div>
                 </div>
+            </div>
         </section>
-        <!-- Page Banner END -->
 
         <section class="pt-0">
-            <div class="container">
+            <div class="dashboard_menu">
                 <div class="row">
                     <!-- Left sidebar START -->
                     <div class="col-xl-3">
@@ -238,24 +248,22 @@
                                 ->route()
                                 ->getName();
                         @endphp
-                        <!-- Responsive offcanvas body START -->
                         <div class="offcanvas-xl offcanvas-end" tabindex="-1" id="offcanvasSidebar"
                             aria-labelledby="offcanvasSidebarLabel">
-                            <!-- Offcanvas header -->
                             <div class="offcanvas-header bg-light">
                                 <h5 class="offcanvas-title" id="offcanvasNavbarLabel">My profile</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="offcanvas"
                                     data-bs-target="#offcanvasSidebar" aria-label="Close"></button>
                             </div>
-                            <!-- Offcanvas body -->
                             <div class="offcanvas-body p-3 p-xl-0">
                                 <div class="bg-dark border rounded-3 pb-0 p-3 w-100">
-                                    <!-- Dashboard menu -->
                                     <div class="list-group list-group-dark list-group-borderless">
                                         @php
                                             if ($current_route == 'dashboard') {
                                                 $active = '';
                                             } elseif ($current_route == 'user.mytasks') {
+                                                $active = '';
+                                            } elseif ($current_route == 'user.mycrops') {
                                                 $active = '';
                                             } else {
                                                 $active = 'collapsed';
@@ -265,18 +273,13 @@
                                             href="{{ route('dashboard') }}"><i
                                                 class="bi bi-ui-checks-grid fa-fw me-2"></i>Dashboard</a>
 
-                                        <a class="list-group-item {{ $current_route == 'user.mytasks' ? 'active' : '' }}
-                                                {{ $current_route == 'user.updatetask' ? 'active' : '' }}"
-                                            href="{{ route('user.mytasks') }}"><i
-                                                class="bi bi-people fa-fw me-2"></i>My Tasks</a>
-
-                                        <a class="list-group-item {{ $current_route == 'user.mylocations' ? 'active' : '' }}
-                                                {{ $current_route == 'user.updatetask' ? 'active' : '' }}"
-                                            href="{{ route('user.mylocations') }}"><i 
-                                                class="bi bi-geo-alt-fill me-2"></i>Locations</a>
-
-                                        <a class="list-group-item" href="instructor-edit-profile.html"><i
+                                        <a class="list-group-item {{ $current_route == 'user.profile' ? 'active' : '' }}"
+                                            href="{{ route('user.profile') }}"><i
                                                 class="bi bi-pencil-square fa-fw me-2"></i>Edit Profile</a>
+
+                                        <a class="list-group-item {{ $current_route == 'user.mycrops' ? 'active' : '' }}"
+                                            href="{{ route('user.mycrops') }}">
+                                            <i class="bi bi-tree-fill"></i>My Crops</a>
 
                                         <form action="{{ route('logout') }}" method="post">
                                             @csrf
@@ -287,9 +290,7 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- Responsive offcanvas body END -->
                     </div>
-                    <!-- Left sidebar END -->
 
                     <!-- Main content START -->
                     <div class="col-xl-9 shadow rounded">
@@ -300,26 +301,20 @@
         </section>
 
     </main>
-    <!-- **************** MAIN CONTENT END **************** -->
 
-    <!-- Back to top -->
     <div class="back-top"><i class="bi bi-arrow-up-short position-absolute top-50 start-50 translate-middle"></i>
     </div>
 
-    <!-- Bootstrap JS -->
     <script src="{{ asset('vendor/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
 
-    <!-- Vendors -->
     <script src="{{ asset('vendor/purecounterjs/dist/purecounter_vanilla.js') }}"></script>
     <script src="{{ asset('vendor/apexcharts/js/apexcharts.min.js') }}"></script>
     <script src="{{ asset('vendor/choices/js/choices.min.js') }}"></script>
     <script src="{{ asset('vendor/overlay-scrollbar/js/overlayscrollbars.min.html') }}"></script>
     <script src="{{ asset('vendor/glightbox/js/glightbox.js') }}"></script>
 
-    <!-- Template Functions -->
     <script src="{{ asset('assets/js/functions.js') }}"></script>
 
-    <!-- DataTables  & Plugins -->
     <script src="{{ asset('plugins/datatables/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
     <script src="{{ asset('plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
@@ -333,7 +328,6 @@
     <script src="{{ asset('plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
     <script src="{{ asset('plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
 
-    <!-- DataTables  & Plugins -->
     <script>
         $(function() {
             $("#example1").DataTable({
@@ -354,7 +348,6 @@
         });
     </script>
 
-    {{-- CK Editor --}}
     <script src="https://cdn.ckeditor.com/4.20.1/standard/ckeditor.js"></script>
 
     <script>
@@ -424,6 +417,19 @@
                     }
                 });
         };
+    </script>
+
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                    pageLanguage: 'en'
+                },
+                'google_translate_element'
+            );
+        }
+    </script>
+
+    <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit">
     </script>
 
 </body>

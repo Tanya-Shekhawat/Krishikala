@@ -5,23 +5,16 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Cure For Sure</title>
+    <title>KrashiKala - @yield('title')</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <link rel="shortcut icon" type="image/x-icon" href="img/favicon.png">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
-        integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="shortcut icon" href="{{ asset('assets/assets/img/logofinal.png') }}" type="image/x-icon">
 
     <!-- CSS here -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="{{ asset('vendor/bootstrap-icons/bootstrap-icons.css') }}">
-    {{-- <link rel="stylesheet" href="{{ asset('assets/css/css/style1.css') }}"> --}}
-    <link rel="stylesheet" href="http://localhost/CureForSure/public/assets/css/css/style1.css">
-    {{-- <link rel="stylesheet" href="{{ asset('assets/css/css/style.css') }}"> --}}
-    <link rel="stylesheet" href="{{ asset('assets/css/css/owl.carousel.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/newcss/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/assets/css/styles.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/assets/swiper/swiper-bundle.min.css') }}">
+    {{-- <link rel="stylesheet" href="{{ asset('assets/assets/css/stylesa.css') }}"> --}}
 
 
     <style>
@@ -44,58 +37,265 @@
 </head>
 
 <body>
+    {{-- <header class="header" id="header">
+        <nav class="nav container">
+            <a href="#" class="nav__logo" style="color:hsl(104, 28%, 35%);">
+                <img src="{{ asset('assets/assets/img/logofinal.png') }}" alt="" class="nav__logo-img"
+                    style="width: 200px; height: 60px">
+            </a>
+            <div class="nav__menu" id="nav-menu">
+                <ul class="nav__list">
+                    <li class="nav__item">
+                        <a href="#home" class="nav__link active-link" style="color:hsl(104, 28%, 35%);">Home</a>
+                    </li>
+                    <li class="nav__item">
+                        <a href="#about" class="nav__link" style="color:hsl(104, 28%, 35%);">About us</a>
+                    </li>
+                    <li class="nav__item">
+                        <a href="{{ route('feedback') }}" class="nav__link"
+                            style="color:hsl(104, 28%, 35%);">Feedback</a>
+                    </li>
+                    <li class="nav__item">
+                        <a href="#new" class="nav__link" style="color:hsl(104, 28%, 35%);">Contact Us</a>
+                    </li>
+                    @if (isset(Auth::user()->id))
+                        <a href="{{ route('login') }}" class="button button--ghost"
+                            style="color:hsl(104, 28%, 35%);">Hello {{ Auth::user()->name }}</a>
+                    @else
+                        <a href="{{ route('login') }}" class="button button--ghost"
+                            style="color:hsl(104, 28%, 35%);">Login</a>
+                    @endif
+                    <li class="nav__item" id="google_translate_element">
 
-    <header class="header" id="header">
-        <nav class="navbar navbar-expand-lg navbar-light "
-            style="background-color: linear-gradient(90deg, hsl(170, 81%, 94%)0%, hsl(172, 87%, 32%)100%);;">
-            <div class="container-fluid" style="margin-left: 120px">
-                <a class="navbar-brand" href="#"
-                    style="font-weight: 700; padding: 30px; margin-left: 70px">Home</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#"
-                                style="font-weight: bolder; margin-left: 70px; color: black;">About Us</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{route('bookappointment')}}"
-                                style=" font-weight: bolder; color: black; margin-left: 70px;">Appointment Booking</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#"
-                                style="font-weight: bolder; margin-left: 70px; color: black;">Login Page</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link disabled" href="#" tabindex="-1"
-                                style="font-weight: bolder; margin-left: 70px; color: black;">Contact Us </a>
-                        </li>
-                    </ul>
+                    </li>
+                </ul>
+                <div class="nav__close" id="nav-close">
+                    <i class='bx bx-x'></i>
                 </div>
+                <img src="assets/img/nav-img.png" alt="" class="nav__img">
+            </div>
+            <div class="nav__toggle" id="nav-toggle">
+                <i class='bx bx-grid-alt'></i>
             </div>
         </nav>
+    </header> --}}
+    <header class="header bg-white" id="header">
+        <nav class="nav mx-5">
+            <a href="{{route('/')}}" class="nav__logo" style="color:hsl(104, 28%, 35%);">
+                <img src="{{ asset('assets/assets/img/logofinal.png') }}" alt="" class="nav__logo-img">
+                <!-- KrashiKala -->
+            </a>
+
+            <div class="nav__menu" id="nav-menu">
+                <ul class="nav__list">
+                    <li class="nav__item">
+                        <a href="index.html" class="nav__link active-link" style="color:hsl(104, 28%, 35%);">Home</a>
+                    </li>
+
+                    <li class="nav__item">
+                        <a href="{{route('about')}}" class="nav__link" style="color:hsl(104, 28%, 35%);">About us</a>
+                    </li>
+
+                    <li class="nav__item">
+                        <a href="{{route('contact')}}" class="nav__link" style="color:hsl(104, 28%, 35%);">Contact</a>
+                    </li>
+
+                    <li class="nav__item">
+                        @if (isset(Auth::user()->id))
+                            <a href="{{ route('dashboard') }}" class="button button--ghost"
+                                style="color:hsl(104, 28%, 35%);">Hello {{ Auth::user()->name }}</a>
+                        @else
+                            <a href="{{ route('login') }}" class="button button--ghost"
+                                style="color:hsl(104, 28%, 35%);">Login</a>
+                        @endif
+                    </li>
+
+                    <li class="nav__item" id="google_translate_element">
+
+                    </li>
+                    {{-- <li class="whether_api">
+                        @php
+                            $curl = curl_init();
+                            
+                            curl_setopt_array($curl, [
+                                CURLOPT_URL => 'https://weather-by-api-ninjas.p.rapidapi.com/v1/weather?city=Bhopal',
+                                CURLOPT_RETURNTRANSFER => true,
+                                CURLOPT_ENCODING => '',
+                                CURLOPT_MAXREDIRS => 10,
+                                CURLOPT_TIMEOUT => 30,
+                                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                                CURLOPT_CUSTOMREQUEST => 'GET',
+                                CURLOPT_HTTPHEADER => ['X-RapidAPI-Host: weather-by-api-ninjas.p.rapidapi.com', 'X-RapidAPI-Key: a7fb0d3933mshce6c11a1c4f7b6cp1b45bcjsn745241cdb7ec'],
+                            ]);
+                            
+                            $response = curl_exec($curl);
+                            $err = curl_error($curl);
+                            
+                            curl_close($curl);
+                            
+                            if ($err) {
+                                echo 'cURL Error #:' . $err;
+                            } else {
+                                $ans = json_decode($response, true);
+                            }
+                        @endphp
+                        <div class="row">
+                            <div class="col-6 p-0">
+                                <img src="{{ asset('assets/img/wethersun.png') }}" alt=""
+                                    style="width: 50px; height: 50px;">
+                            </div>
+                            <div class="col-6 p-0">
+                                <p class="max_temp m-0"
+                                    style="color: rgb(255, 72, 0); font-weight:600; font-size:16px;">
+                                    {{ $ans['max_temp'] }} °C</p>
+                                <p class="min_temp m-0" style="color: rgb(34, 9, 1); font-weight:500; font-size:14px;">
+                                    {{ $ans['min_temp'] }} °C</p>
+                            </div>
+                        </div>
+                    </li> --}}
+
+                </ul>
+
+                <div class="nav__close" id="nav-close">
+                    <i class='bx bx-x'></i>
+                </div>
+
+                <img src="assets/img/nav-img.png" alt="" class="nav__img">
+            </div>
+
+            <div class="nav__toggle" id="nav-toggle">
+                <i class='bx bx-grid-alt'></i>
+            </div>
+
+        </nav>
     </header>
+
 
     <section class="my-4">
         @yield('main_content')
     </section>
 
+    <!--FOOTER -->
+    <footer class="footer section bg-light">
+        <div class="footer__container container grid">
+            <div class="footer__content">
+                <a href="#" class="footer__logo">
+                    <img src="{{ asset('assets/assets/img/finallogo.png') }}" alt="" class="footer__logo-img">
+                    KrashiKala
+                </a>
+
+                <p class="footer__description">Enjoy your Farming <br> </p>
+
+                <div class="footer__social">
+                    <a href="https://www.facebook.com/" target="_blank" class="footer__social-link">
+                        <i class='bx bxl-facebook'></i>
+                    </a>
+                    <a href="https://www.instagram.com/" target="_blank" class="footer__social-link">
+                        <i class='bx bxl-instagram-alt'></i>
+                    </a>
+                    <a href="https://twitter.com/" target="_blank" class="footer__social-link">
+                        <i class='bx bxl-twitter'></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="footer__content">
+                <h3 class="footer__title">About</h3>
+
+                <ul class="footer__links">
+                    <li>
+                        <a href="#" class="footer__link">About Us</a>
+                    </li>
+                    <li>
+                        <a href="#" class="footer__link">Features</a>
+                    </li>
+                    <li>
+                        <a href="#" class="footer__link">News</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="footer__content">
+                <h3 class="footer__title">Our Services</h3>
+
+                <ul class="footer__links">
+                    <li>
+                        <a href="#" class="footer__link">Crop Prediction</a>
+                    </li>
+                    <li>
+                        <a href="#" class="footer__link">Fertilizer Prediction</a>
+                    </li>
+                    <li>
+                        <a href="#" class="footer__link">Disease Recommendation</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="footer__content">
+                <h3 class="footer__title">Our Company</h3>
+
+                <ul class="footer__links">
+                    <li>
+                        <a href="#" class="footer__link">Blog</a>
+                    </li>
+                    <li>
+                        <a href="#" class="footer__link">About us</a>
+                    </li>
+                    <li>
+                        <a href="#" class="footer__link">Our mision</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <span class="footer__copy">&#169; All rigths reserved</span>
+
+        <img src="{{ asset('assets/assets/img/tree.png') }}" alt="" class="footer__img-one"
+            style="height: 250px; width: 250px;">
+        <img src="{{ asset('assets/assets/img/f1.png') }}" alt="" class="footer__img-two"
+            style="height: 250px; width: 250px;">
+    </footer>
+
+    <!-- SCROLL UP -->
+    <a href="#" class="scrollup" id="scroll-up">
+        <i class='bx bx-up-arrow-alt scrollup__icon'></i>
+    </a>
+
 </body>
 <!--contact js-->
 <script src="{{ asset('vendor/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
 
-{{-- <script src="js/owl.carousel.min.js"></script> --}}
-<script src="{{ asset('assets/js/js/owl.carousel.min.js') }}"></script>
-<script src="{{ asset('assets/js/js/scrollIt.js') }}"></script>
-<script src="{{ asset('assets/js/js/main.js') }}"></script>
-<script src="{{ asset('assets/js/js/vendor/jquery-1.12.4.min.js') }}"></script>
 
-<script src="{{ asset('assets/js/js/jquery.slicknav.min.js') }}"></script>
+@yield('javascript')
 
+<script type="text/javascript">
+    function googleTranslateElementInit() {
+        new google.translate.TranslateElement({
+                pageLanguage: 'en'
+            },
+            'google_translate_element'
+        );
+    }
+</script>
+<script src="{{ asset('assets/assets/swiper/swiper-bundle.min.js') }}"></script>
+<script src="{{ asset('assets/assets/js/scrollreveal.min.js') }}"></script>
 
+<script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit">
+</script>
+<script>
+    var swiper = new Swiper(".mySwiper", {
+        slidesPerView: 3,
+        spaceBetween: 30,
+        pagination: {
+            el: ".swiper-pagination",
+            clickable: true,
+        },
+        navigation: {
+            nextEl: ".swiper-button-next",
+            prevEl: ".swiper-button-prev",
+        },
+    });
+</script>
 {{-- <script src="js/main.js"></script> --}}
 
 </html>

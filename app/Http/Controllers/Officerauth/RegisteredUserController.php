@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Officerauth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Doctor;
 use App\Models\StationOfficer;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
@@ -20,7 +21,7 @@ class RegisteredUserController extends Controller
      */
     public function create(): View
     {
-        return view('officer.auth.register');
+        return view('doctor.auth.register');
     }
 
     /**
@@ -32,19 +33,22 @@ class RegisteredUserController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:'.StationOfficer::class],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:'.Doctor::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
-        $officer = StationOfficer::create([
+        $officer = Doctor::create([
             'name' => $request->name,
             'email' => $request->email,
+            'phone' => 999999999,
+            'address' => "Bhopal",
+            'qualifications' => "MBBS",
             'password' => Hash::make($request->password),
         ]);
 
         event(new Registered($officer));
 
-        Auth::guard('officer')->login($officer);
+        Auth::guard('doctor')->login($officer);
 
         return redirect(RouteServiceProvider::OFFICER_HOME);
     }

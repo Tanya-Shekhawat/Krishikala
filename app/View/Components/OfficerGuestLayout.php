@@ -12,6 +12,6 @@ class OfficerGuestLayout extends Component
      */
     public function render(): View
     {
-        return view('officer.layouts.guest');
+        return view('doctor.layouts.guest');
     }
 }

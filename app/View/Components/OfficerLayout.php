@@ -12,6 +12,6 @@ class OfficerLayout extends Component
      */
     public function render(): View
     {
-        return view('officer.layouts.app');
+        return view('doctor.layouts.app');
     }
 }

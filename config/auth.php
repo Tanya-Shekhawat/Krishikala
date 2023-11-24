@@ -44,7 +44,7 @@ return [
             'driver' => 'session',
             'provider' => 'admins',
         ],
-        'officer' => [
+        'doctor' => [
             'driver' => 'session',
             'provider' => 'officers',
         ],
@@ -78,7 +78,7 @@ return [
         ],
         'officers' => [
             'driver' => 'eloquent',
-            'model' => App\Models\StationOfficer::class,
+            'model' => App\Models\Doctor::class,
         ],
 
         // 'users' => [

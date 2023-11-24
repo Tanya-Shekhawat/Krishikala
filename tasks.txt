@@ -1,0 +1,3 @@
+1. User photo upload in Cloud
+2. userlayout page cahnage profile photo link
+3. change season -moonson, summer, winter, spring, year round

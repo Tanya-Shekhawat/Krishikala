@@ -6,7 +6,7 @@
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  */
 :root {
-  --bs-blue: #0d6efd;
+  --bs-blue: #70c745;
   --bs-indigo: #6610f2;
   --bs-purple: #6f42c1;
   --bs-pink: #d63384;
@@ -76,8 +76,8 @@
   --bs-border-radius-xl: 1rem;
   --bs-border-radius-2xl: 2rem;
   --bs-border-radius-pill: 50rem;
-  --bs-link-color: #066ac9;
-  --bs-link-hover-color: #0555a1;
+  --bs-link-color: #70c745;
+  --bs-link-hover-color: #70c745;
   --bs-code-color: #d63384;
   --bs-highlight-bg: #fff3cd;
 }
@@ -87,6 +87,11 @@
 *::after {
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
+}
+
+::selection{
+  background-color: #70c745;
+  color: white;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -22797,4 +22802,32 @@ html[dir=rtl] .choices__input {
 /* Custom CSS */
 .asktrick_label {
   color: red;
+}
+
+
+.dashboard_box {
+  width: 100%;
+  margin: auto;
+  text-align: center;
+  height: 16vh;
+  border: 1px solid;
+  vertical-align: middle;
+  font-size: 32px;
+  color: #999;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.dashboard_box h5 {
+  color: #999;
+  padding: 5px 0px;
+}
+
+.dashboard_box:hover {
+  color: #70c745;
+}
+
+.dashboard_box:hover h5 {
+  color: black
 }

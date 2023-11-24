@@ -11,26 +11,26 @@
         </div>
     </div>
     <div class="row g-4 mb-4">
-        <div class="col-md-6 col-xxl-3">
+        <div class="col-md-6 col-xxl-6">
             <div class="card card-body bg-purple bg-opacity-15 p-4 h-100">
                 <div class="d-flex justify-content-between align-items-center">
                     <div>
-                        <h2 class="purecounter mb-0 fw-bold" data-purecounter-start="0"
-                            data-purecounter-end="{{ count($appointments) }}" data-purecounter-delay="200">0</h2>
-                        <span class="mb-0 h6 fw-light">Total Appointments</span>
+                        <h2 class="purecounter mb-0 fw-bold" data-purecounter-start="0" data-purecounter-end="{{count($user)}}"
+                            data-purecounter-delay="200">0</h2>
+                        <span class="mb-0 h6 fw-light">Total Users</span>
                     </div>
                     <div class="icon-lg rounded-circle bg-purple text-white mb-0"><i class="fas fa-user"></i></div>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-6 col-xxl-3">
+        <div class="col-md-6 col-xxl-6">
             <div class="card card-body bg-warning bg-opacity-10 p-4 h-100">
                 <div class="d-flex justify-content-between align-items-center">
                     <div>
-                        <h2 class="purecounter mb-0 fw-bold" data-purecounter-start="0"
-                            data-purecounter-end="{{ count($pending_appoin) }}" data-purecounter-delay="200">0</h2>
-                        <span class="mb-0 h6 fw-light">Pending Appointments</span>
+                        <h2 class="purecounter mb-0 fw-bold" data-purecounter-start="0" data-purecounter-end="{{count($pending_users)}}"
+                            data-purecounter-delay="200">0</h2>
+                        <span class="mb-0 h6 fw-light">Pending Users</span>
                     </div>
                     <div class="icon-lg rounded-circle bg-warning text-white mb-0"><i class="fas fa-calendar-check"></i>
                     </div>
@@ -44,38 +44,35 @@
             <table id="example1" class="border">
                 <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>Pateint Name</th>
-                        <th>Phone</th>
-                        <th>Gender</th>
-                        <th>Date</th>
-                        <th>Cofirmed</th>
-                        <th>Timeslot</th>
+                        <th>Serial No.</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Area</th>
+                        <th>Account Verified</th>
                     </tr>
                 </thead>
                 <tbody>
                     @php
                         $index = 0;
                     @endphp
-                    @foreach ($appointments as $item)
+                    @foreach ($user as $item)
                         @php ++$index; @endphp
                         <tr>
                             <td>{{ $index }}</td>
-                            <td>{{ $item->fname }}</td>
-                            <td>{{ $item->phone }}</td>
-                            <td>{{ $item->gender }}</td>
-                            <td>{{ $item->date }}</td>
+                            <td>{{ $item->name }}</td>
+                            <td>{{ $item->email }}</td>
+                            <td>{{ $item->area }}</td>
                             <td>
                                 <div class="form-check form-switch form-check-md mb-0">
                                     <input class="form-check-input" type="checkbox" id="tab_{{ $item->id }}"
-                                        @if ($item->stat == 1) @checked(true) @endif
-                                        onclick="changeStatus('appointments','stat','{{ $item->id }}')"
-                                        data-status="{{ $item->stat }}",>
+                                        @if ($item->is_confirmed == 1) @checked(true) @endif
+                                        onclick="changeStatus('users','is_confirmed','{{ $item->id }}')"
+                                        data-status="{{ $item->is_confirmed }}">
                                 </div>
                             </td>
-                            <td>{{ $item->timeslot }}</td>
                         </tr>
                     @endforeach
+
                 </tbody>
             </table>
         </div>

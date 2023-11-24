@@ -12,9 +12,6 @@
     <meta name="author" content="Webestica.com">
     <meta name="description" content="@yield('title')">
 
-    <!-- Favicon -->
-    <link rel="shortcut icon" href="{{ asset('assets/images/police/head-png.png') }}">
-
     <!-- Google Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com/">
     <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
@@ -75,7 +72,7 @@
                 success: function(data) {
                     if (data) {
                         $(id).data('status', status)
-                        toastr.success("Booking Status Updated")
+                        toastr.success("Status Updated")
                     } else {
                         toastr.warning("Something went wrong")
                     }
@@ -89,7 +86,7 @@
             color: red;
         }
 
-        .appointments{
+        .appointments {
             box-shadow: 0 0 5px rgb(102, 101, 101);
             border-radius: 10px;
             padding: 20px 10px;
@@ -101,9 +98,7 @@
 
 <body>
 
-    <!-- **************** MAIN CONTENT START **************** -->
     <main>
-
         <!-- Sidebar START -->
         <nav class="navbar sidebar navbar-expand-xl navbar-dark bg-dark">
 
@@ -113,14 +108,13 @@
                     ->getName();
             @endphp
 
-            <!-- Navbar brand for xl START -->
             <div class="d-flex align-items-center">
-                <a class="navbar-brand" href="/CureForSure">
-                    <img class="navbar-brand-item" src="{{ asset('assets/images/police/head-png.png') }}"
-                        alt="" width="100px" height="60px">
+                <a class="navbar-brand bg-white w-100" href="/CureForSure">
+                    <img class="navbar-brand-item text-center"
+                        src="{{asset('assets/assets/img/logofinal.png')}}" alt=""
+                        style="width: 200px; height:80px;">
                 </a>
             </div>
-            <!-- Navbar brand for xl END -->
 
             <div class="offcanvas offcanvas-start flex-row custom-scrollbar h-100" data-bs-backdrop="true"
                 tabindex="-1" id="offcanvasSidebar">
@@ -128,7 +122,6 @@
 
                     <!-- Sidebar menu START -->
                     <ul class="navbar-nav flex-column" id="navbar-sidebar">
-                        <!-- Menu item 1 -->
                         {{-- Admin Dashboard --}}
                         <li class="nav-item">
                             @php
@@ -143,94 +136,51 @@
                                 href="{{ route('admin.dashboard') }}"><i
                                     class="bi bi-house fa-fw me-2"></i>Dashboard</a>
                         </li>
-                        </li>
-
-                        <!-- Title -->
-                        <li class="nav-item ms-2 my-2">Links</li>
-
-                        <!-- Police Officers and Personnels -->
-                        <li class="nav-item">
-                            @php
-                                if ($current_route == 'admin.officers' || $current_route == 'admin.manageofficers' || $current_route == 'admin.manageofficers.edit') {
-                                    $aria_expanded = 'true';
-                                    $active = '';
-                                } elseif ($current_route == 'admin.policepersonnels' || $current_route == 'admin.managepolicepersonnels') {
-                                    $aria_expanded = 'true';
-                                    $active = '';
-                                } else {
-                                    $aria_expanded = 'false';
-                                    $active = 'collapsed';
-                                }
-                            @endphp
-                            <a class="nav-link {{ $active }}" data-bs-toggle="collapse" href="#collapsepolice"
-                                role="button" aria-expanded="{{ $aria_expanded }}" aria-controls="collapsepolice">
-                                <i class="fas fa-user-graduate fa-fw me-2"></i>Staff
-                            </a>
-                            <!-- Submenu -->
-                            <ul class="nav collapse flex-column {{ $active == 'collapsed' ? '' : 'show' }}"
-                                id="collapsepolice" data-bs-parent="#navbar-sidebar">
-                                <li class="nav-item"> <a
-                                        class="nav-link {{ $current_route == 'admin.officers' ? 'active' : '' }}
-                                        {{ $current_route == 'admin.manageofficers' ? 'active' : '' }} {{ $current_route == 'admin.manageofficers.edit' ? 'active' : '' }}"
-                                        href="{{ route('admin.officers') }}">Doctors</a>
-                                </li>
-                                <li class="nav-item"> <a
-                                        class="nav-link {{ $current_route == 'admin.policepersonnels' ? 'active' : '' }}"
-                                        href="{{ route('admin.policepersonnels') }}">User</a></li>
-                            </ul>
-                        </li>
 
                         <!-- Menu item 5 -->
                         <li class="nav-item">
                             @php
-                                if ($current_route == 'admin.appointments' || $current_route == 'admin.manageallstations' || $current_route == 'admin.manageallstations.edit') {
+                                if ($current_route == 'admin.mandiprice' || $current_route == 'admin.managemandiprice' || $current_route == 'admin.managemandiprice.edit') {
                                     $active = '';
                                 } else {
                                     $aria_expanded = 'false';
                                     $active = 'collapsed';
                                 }
                             @endphp
-                            <a class="nav-link {{ $current_route == 'admin.appointments' ? 'active' : '' }}
-                            {{ $current_route == 'admin.manageallstations' ? 'active' : '' }} {{ $current_route == 'admin.manageallstations.edit' ? 'active' : '' }}"
-                                href="{{ route('admin.appointments') }}"><i
-                                    class="far fa-comment-dots fa-fw me-2"></i>Appointments</a>
+                            <a class="nav-link {{ $current_route == 'admin.mandiprice' ? 'active' : '' }}
+                            {{ $current_route == 'admin.managemandiprice' ? 'active' : '' }} {{ $current_route == 'admin.managemandiprice.edit' ? 'active' : '' }}"
+                                href="{{ route('admin.mandiprice') }}"><i class="bi bi-cash-coin me-2"></i>Mandi
+                                Price</a>
                         </li>
 
-                        <!-- Menu item 5 -->
-                        {{-- <li class="nav-item">
+                        <li class="nav-item">
+                            <a class="nav-link {{ $current_route == 'admin.viewfeedback' ? 'active' : '' }}"
+                                href="{{ route('admin.viewfeedback') }}"><i class="bi bi-card-checklist me-2"></i>
+                                Feedback</a>
+                        </li>
+
+                        <li class="nav-item">
                             @php
-                                if ($current_route == 'admin.casecate' || $current_route == 'admin.managecasecate' || $current_route == 'admin.managecasecate.edit') {
+                                if ($current_route == 'admin.seasons' || $current_route == 'admin.manageseasons' || $current_route == 'admin.manageseasons.edit') {
                                     $active = '';
                                 } else {
                                     $aria_expanded = 'false';
                                     $active = 'collapsed';
                                 }
                             @endphp
-                            <a class="nav-link {{ $current_route == 'admin.casecate' ? 'active' : '' }}
-                            {{ $current_route == 'admin.managecasecate' ? 'active' : '' }} {{ $current_route == 'admin.managecasecate.edit' ? 'active' : '' }}"
-                                href="{{ route('admin.casecate') }}"><i
-                                    class="far fa-comment-dots fa-fw me-2"></i>Case Category</a>
-                        </li> --}}
+                            <a class="nav-link {{ $current_route == 'admin.seasons' ? 'active' : '' }}
+                            {{ $current_route == 'admin.manageseasons' ? 'active' : '' }} {{ $current_route == 'admin.manageseasons.edit' ? 'active' : '' }}"
+                                href="{{ route('admin.seasons') }}"><i class="bi bi-cloud-sun me-2"></i>
+                                Seasons</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link {{ $current_route == 'admin.profile' ? 'active' : '' }}"
+                                href="{{ route('admin.profile') }}"><i class="fas fa-regular fa-user me-2"></i>My
+                                Profile</a>
+                        </li>
                     </ul>
                     <!-- Sidebar menu end -->
-
-                    <!-- Sidebar footer START -->
-                    {{-- <div class="px-3 mt-auto pt-3">
-                        <div class="d-flex align-items-center justify-content-between text-primary-hover">
-                            <a class="h5 mb-0 text-body" href="admin-setting.html" data-bs-toggle="tooltip"
-                                data-bs-placement="top" title="Settings">
-                                <i class="bi bi-gear-fill"></i>
-                            </a>
-                            <a class="h5 mb-0 text-body" href="index-2.html" data-bs-toggle="tooltip"
-                                data-bs-placement="top" title="Home">
-                                <i class="bi bi-globe"></i>
-                            </a>
-                            <a class="h5 mb-0 text-body" href="sign-in.html" data-bs-toggle="tooltip"
-                                data-bs-placement="top" title="Sign out">
-                                <i class="bi bi-power"></i>
-                            </a>
-                        </div>
-                    </div> --}}
                 </div>
             </div>
         </nav>
@@ -245,9 +195,11 @@
                         <div class="d-flex align-items-center d-xl-none">
                             <a class="navbar-brand" href="index-2.html">
                                 <img class="light-mode-item navbar-brand-item h-30px"
-                                    src="{{ asset('assets/images/police/head-png.png') }}" alt="">
+                                    src="http://localhost/CureForSure/public/assets/img/logo.png"
+                                    style="height: 60px; width: 70px;">
                                 <img class="dark-mode-item navbar-brand-item h-30px"
-                                    src="{{ asset('assets/images/police/head-png.png') }}" alt="">
+                                    src="http://localhost/CureForSure/public/assets/img/logo.png"
+                                    style="height: 60px; width: 70px;">
                             </a>
                         </div>
                         <!-- Logo END -->
@@ -257,8 +209,8 @@
                             <button class="navbar-toggler me-auto" type="button" data-bs-toggle="offcanvas"
                                 data-bs-target="#offcanvasSidebar" aria-controls="offcanvasSidebar"
                                 aria-expanded="false" aria-label="Toggle navigation" data-bs-auto-close="outside">
-                                <i class="bi bi-text-right fa-fw h2 lh-0 mb-0 rtl-flip"
-                                    data-bs-target="#offcanvasMenu"> </i>
+                                <i class="bi bi-text-right fa-fw h2 lh-0 mb-0 rtl-flip" data-bs-target="#offcanvasMenu">
+                                </i>
                             </button>
                         </div>
                         <!-- Toggler for sidebar END -->
@@ -303,7 +255,7 @@
                                         role="button" data-bs-auto-close="outside" data-bs-display="static"
                                         data-bs-toggle="dropdown" aria-expanded="false">
                                         <img class="avatar-img rounded-circle"
-                                            src="{{ asset('assets/images/avatar/01.jpg') }}" alt="avatar">
+                                            src="{{ Auth::guard('admin')->user()->profile_image }}" alt="avatar">
                                     </a>
 
                                     <!-- Profile dropdown START -->
@@ -315,7 +267,8 @@
                                                 <!-- Avatar -->
                                                 <div class="avatar me-3 mb-3">
                                                     <img class="avatar-img rounded-circle shadow"
-                                                        src="assets/images/avatar/01.jpg" alt="avatar">
+                                                        src="{{ Auth::guard('admin')->user()->profile_image }}"
+                                                        alt="avatar">
                                                 </div>
                                                 <div>
                                                     <a class="h6 mt-2 mt-sm-0"
@@ -328,21 +281,19 @@
                                             <hr class="dropdown-divider">
                                         </li>
                                         <!-- Links -->
-                                        <li><a class="dropdown-item" href="#"><i
+                                        <li><a class="dropdown-item" href="{{ route('admin.profile') }}"><i
                                                     class="bi bi-person fa-fw me-2"></i>Edit Profile</a></li>
-                                        <li><a class="dropdown-item" href="#"><i
-                                                    class="bi bi-gear fa-fw me-2"></i>Account Settings</a></li>
-                                            <form action="{{ route('admin.logout') }}" method="post">
-                                                @csrf
-                                                <button type="submit" class="dropdown-item bg-danger-soft-hover">
-                                                    <i class="bi bi-power fa-fw me-2"></i>Sign Out</button>
-                                            </form>
-                                        </li>
-                                        <li>
-                                            <hr class="dropdown-divider">
-                                        </li>
-                                    </ul>
+                                        <form action="{{ route('admin.logout') }}" method="post">
+                                            @csrf
+                                            <button type="submit" class="dropdown-item bg-danger-soft-hover">
+                                                <i class="bi bi-power fa-fw me-2"></i>Sign Out</button>
+                                        </form>
                                 </li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                            </ul>
+                            </li>
                             </ul>
                         </div>
                     </div>
@@ -456,37 +407,24 @@
     {{-- Delete the Data from DB --}}
     <script>
         function deleteDataDb(id, table_name) {
-            swal({
-                    title: "Are you sure you want to delete this record?",
-                    text: "If you delete this, it will be gone forever.",
-                    id,
-                    icon: "warning",
-                    buttons: true,
-                    dangerMode: true,
-                })
-                .then((willDelete) => {
-                    if (willDelete) {
-                        $.ajax({
-                            type: "get",
-                            url: "{{ route('delete') }}",
-                            data: {
-                                id: id,
-                                table: table_name,
-                                _token: '{{ csrf_token() }}'
-                            },
-                            success: function(response) {
-                                window.location.reload();
-                                swal({
-                                    title: "Data Deleted",
-                                    text: "Data deleted permanentaly",
-                                    icon: "success",
-                                })
-                            }
-                        });
-                    } else {
-                        swal("Your imaginary file is safe!");
-                    }
-                });
+            // alert("jkls")
+            $.ajax({
+                type: "get",
+                url: "{{ route('delete') }}",
+                data: {
+                    id: id,
+                    table: table_name,
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function(response) {
+                    window.location.reload();
+                    swal({
+                        title: "Data Deleted",
+                        text: "Data deleted permanentaly",
+                        icon: "success",
+                    })
+                }
+            });
         };
     </script>
 

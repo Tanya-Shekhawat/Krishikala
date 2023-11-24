@@ -1,138 +1,146 @@
-{{-- <x-guest-layout>
-    <!-- Session Status -->
-    <x-auth-session-status class="mb-4" :status="session('status')" />
-
-    <form method="POST" action="{{ route('login') }}">
-        @csrf
-
-        <!-- Email Address -->
-        <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required
-                autofocus autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-        </div>
-
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
-
-            <x-text-input id="password" class="block mt-1 w-full" type="password" name="password" required
-                autocomplete="current-password" />
-
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
-
-        <!-- Remember Me -->
-        <div class="block mt-4">
-            <label for="remember_me" class="inline-flex items-center">
-                <input id="remember_me" type="checkbox"
-                    class="rounded dark:bg-gray-900 border-gray-300 dark:border-gray-700 text-indigo-600 shadow-sm focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:focus:ring-offset-gray-800"
-                    name="remember">
-                <span class="ml-2 text-sm text-gray-600 dark:text-gray-400">{{ __('Remember me') }}</span>
-            </label>
-        </div>
-
-        <div class="flex items-center justify-end mt-4">
-            @if (Route::has('password.request'))
-                <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800"
-                    href="{{ route('password.request') }}">
-                    {{ __('Forgot your password?') }}
-                </a>
-            @endif
-
-            <x-primary-button class="ml-3">
-                {{ __('Log in') }}
-            </x-primary-button>
-        </div>
-    </form>
-</x-guest-layout> --}}
-
-<html>
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
-    <meta http-equiv="Refresh" content=“6; url=https://pawsthedogsplanet.com/“ />
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-    <link rel="stylesheet" href="{{ asset('assets/css/login.css') }}">
-    <link rel="shortcut icon" href="{{ asset('assets/css/login.css') }}" type="image/x-icon">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agriculture Login and Register</title>
     <style>
         body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
             margin: 0;
-            padding: 0;
-
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
         }
 
-        #zoom-In:hover {
-            transform: scale(1.3);
-            cursor: pointer;
-        }
-
-        .image {
-            display: block;
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
             width: 100%;
-            height: 100%;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input {
+            width: calc(100% - 12px);
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
             cursor: pointer;
+            font-size: 16px;
         }
 
-        #zoom-In {
-            transform: scale(1);
-            transition: 0.8s ease-in-out;
+        button:hover {
+            background-color: #45a049;
         }
 
-        .container img {
-            height: 15%;
-            width: 60%;
+        .form-group {
+            margin-bottom: 15px;
         }
 
-        @keyframes example {
-            from {
-                top: 320px;
-            }
+        .form-group:last-child {
+            margin-bottom: 0;
+        }
 
-            to {
-                top: 0px;
-            }
+        .switch-form {
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .switch-form a {
+            text-decoration: none;
+            color: #4CAF50;
+            font-weight: bold;
         }
     </style>
 </head>
 
 <body>
+    <header>
+
+    </header>
+
     <div class="container">
-        <div class="container">
-            <div class="card card-container">
-                <h5 class="text-center mb-3">User Login</h5>
-                <div id="zoom-In" class="image">
+        <h1 id="heading_login">Login</h1>
+        <h1 id="heading_register" style="display: none;">Register</h1>
 
-                    <img style="margin-bottom: 30px;"; src="{{ asset('assets/images/police/head-png.png') }}"
-                        class="rounded mx-auto d-block "alt="...">
-                </div>
+        <!-- Login Form -->
+        <form id="login-form" class="form-group" method="POST" action="{{ route('login') }}">
+            @csrf
+            <label for="login-username">Username</label>
+            <input type="text" id="login-username" name="email" required>
 
-                <form method="POST" action="{{ route('login') }}">
-                    @csrf
-                    <fieldset class="clearfix">
+            <label for="login-password">Password</label>
+            <input type="password" id="login-password" name="password" required>
+            <button type="submit">Login</button>
+        </form>
 
-                        <p>
-                            <span class="fontawesome-user"></span>
-                            <input class="form-control" type="email" name="email" placeholder="Enter Email">
-                        </p>
-                        <p>
-                            <span class="fontawesome-lock"></span>
-                            <input class="form-control" type="password" name="password" placeholder="Enter Password">
-                        </p>
-                        <p>
-                            <input class="btn btn-lg btn-primary btn-block btn-signin" type="submit" name="login"
-                                value="LogIn">
-                        </p>
+        <!-- Registration Form -->
+        <form id="register-form" class="form-group" style="display:none;" method="POST"
+            action="{{ route('register') }}">
+            @csrf
+            <label for="register-username">Name</label>
+            <input type="text" id="register-username" name="name" required>
 
-                    </fieldset>
+            <label for="register-username">Email</label>
+            <input type="text" id="register-username" name="email" required>
 
-                </form>
-            </div>
+            <label for="register-password">Password</label>
+            <input type="password" id="register-password" name="password" required>
+
+            <label for="register-password">Confirm Password</label>
+            <input type="password" id="register-password" name="password_confirmation" required>
+
+            <button type="submit">Register</button>
+        </form>
+
+        <!-- Switch between Login and Register -->
+        <div class="switch-form">
+            <p>Don't have an account? <a href="#" id="switch-to-register">Register here</a>.</p>
+            <p>Already have an account? <a href="#" id="switch-to-login">Login here</a>.</p>
         </div>
     </div>
-    
+
+    <script>
+        document.getElementById('switch-to-register').addEventListener('click', function() {
+            document.getElementById('login-form').style.display = 'none';
+            document.getElementById("heading_login").style.display = "none";
+            document.getElementById('register-form').style.display = 'block';
+            document.getElementById("heading_register").style.display = "block";
+        });
+
+        document.getElementById('switch-to-login').addEventListener('click', function() {
+            document.getElementById('register-form').style.display = 'none';
+            document.getElementById('login-form').style.display = 'block';
+            document.getElementById("heading_register").style.display = "none";
+            document.getElementById("heading_login").style.display = "block";
+        });
+    </script>
+
     <!-- toaster -->
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js"></script>
@@ -153,7 +161,9 @@
             @endforeach
         @endif
     </script>
-</body>
 
+    @include('sweetalert::alert', ['cdn' => 'https://cdn.jsdelivr.net/npm/sweetalert2@9'])
+    
+</body>
 
 </html>
